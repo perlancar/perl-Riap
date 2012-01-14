@@ -391,7 +391,7 @@ backward-incompatible adjustments to Rinci's terminologies.
 
 =head2 1.0 (Aug 2011)
 
-Slit specification to L<Sub::Spec::HTTP>.
+Split specification to L<Sub::Spec::HTTP>.
 
 =head2 May 2011
 
