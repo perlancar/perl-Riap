@@ -144,6 +144,12 @@ actually enveloped with a 200 status):
 The server may add additional information.
 
 
+=head3 Action: B<meta>
+
+Return Rinci metadata for the code entity. When the entity does not have
+metadata, server should return HTTP 534 (metadata not found) status.
+
+
 =head2 Actions for C<package> entities
 
 Below are actions that must be supported by the C<package> entities:
@@ -194,11 +200,6 @@ C<function> and C<q> to C<multiply>:
     "summary": "Multiply several numbers"}
   ]
  ]
-
-=head3 Action: B<meta>
-
-Return Rinci metadata for the code entity. When the entity does not have
-metadata, server should return HTTP 534 (metadata not found) status.
 
 
 =head2 Actions for C<function> entities
