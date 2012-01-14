@@ -1,5 +1,10 @@
 Revision history for Rinci::HTTP
 
+1.1.1    2012-01-15
+
+         No spec changes. Fix misplaced section in POD.
+
+
 1.1.0    2012-01-15
 
          First release. Renamed from Sub::Spec::HTTP. Now follow the Rinci
