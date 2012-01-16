@@ -267,7 +267,7 @@ When there is no completion, the server should return an empty list:
 =head1 RINCI SERVER
 
 Server listens to HTTP requests, parses them into Rinci requests, executes the
-Rinci requests, and send the result to client.
+Rinci requests, and sends the results to clients.
 
 =head2 Parsing Rinci request from HTTP request
 
