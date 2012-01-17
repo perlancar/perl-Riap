@@ -1,0 +1,293 @@
+package Riap; # just to make PodWeaver happy
+
+1;
+# ABSTRACT: Rinci access protocol
+
+=head1 SPECIFICATION VERSION
+
+ 1.1
+
+
+=head1 ABSTRACT
+
+This document specifies a simple, extensible, client/server, request/response
+protocol for requesting metadata and performing actions on code entities.
+
+Examples are written in JSON (sometimes with added comments), but data
+structures can actually be encoded using other formats.
+
+
+=head1 DESCRIPTION
+
+Rinci access protocol (Riap for short), is a client/server, request/response
+protocol for requesting metadata and performing actions on code entities.
+
+The server side is viewed as being a tree of code entities, with a package
+entity at the root. The other entities, such as subpackages, functions,
+variables, etc are discovered by client by performing a C<list> action on a
+package entity. The client can also perform a C<meta> action on any code entity
+to get its metadata, as specified by the L<Rinci> specification. There are other
+actions that can be performed on code entities, like C<call> on functions to
+perform remote call. The protocol can be extended by introducing more actions.
+The list of performable actions, as well as other information, can be discovered
+by performing an C<info> action on the code entity first.
+
+The protocol can use over any transport protocol, like HTTP or direct TCP.
+L<Riap::HTTP> explains how Riap can be used over HTTP.
+
+
+=head1 TERMINOLOGIES
+
+=over 4
+
+=item * Server
+
+=item * Client
+
+=item * Response
+
+Response is an enveloped result as defined by the L<Rinci::function>
+specification.
+
+=item * Request
+
+A Riap request is a mapping of request keys and their values. Server should
+return 400 status if required keys are missing, unknown keys are sent, or keys
+contain invalid values.
+
+=back
+
+
+=head1 THE REQUEST
+
+The Riap request is a mapping of request keys and their values. Some recognized
+request keys:
+
+=over 4
+
+=item * v => FLOAT
+
+Required. Specify Riap protocol version. Currently must have the value of C<1.1>
+
+The server should return 502 status if protocol version is not supported.
+
+=item * uri => STR
+
+Required. Specify the location to code entity. It is either a schemeless URI
+(e.g. C</Package/SubPackage/func>) or a URI with a scheme (e.g.
+C<pm:///Foo/Bar/func> which might point to a Perl function accessible by the
+Perl-based server). The URI with a scheme might point to a remote code entity
+(e.g. C<http://example.org/api/Foo/Bar/func>, in which case the server can
+decide to proxy it for the client or not.
+
+The server should return 404 status if B<uri> does not map to an existing code
+entity.
+
+=item * ofmt => STR
+
+Specify result ("output") format. Defaults to C<json>, which the server MUST
+accept. Server can accept additional result formats if it wants to, like
+C<yaml>, C<xml>, or C<phps> (PHP serialization format).
+
+Server should give response in C<json> if requested result format is not
+supported.
+
+=item * action => STR
+
+Required. Specify action to perform on the code entity.
+
+The server should return 502 status if an action is unknown for the specified
+URI. The server should return 401/403 status if authentication is required or
+action is not allowed for the specified code entity, respectively.
+
+=back
+
+Additional keys might be recognized and/or required according to the action.
+
+
+=head1 COMMON ACTIONS
+
+Below are the actions which must be implemented by the server for all kinds of
+entities.
+
+=head2 Action: B<info>
+
+Get general information and information about the code entity. This action
+requires no additional request keys. Upon success, the server must return a hash
+result with at least the following keys (remember that the result is actually
+enveloped with a 200 status):
+
+ {
+  // server's protocol version
+  "v": 1.1,
+
+  // entity's canonical URL
+  "url": "http://localhost:5000/api/Package/SubPkg/func",
+
+  // entity's type
+  "type": "function",
+
+  // actions available for this entity
+  "acts": ["info", "call", "complete"],
+
+  "defact": "call",
+
+  // supported input formats for HTTP request body,
+  // for value of C<args> request key
+  "ifmt": ["json", "yaml", "phps"],
+
+  // supported result ("output") formats
+  "ofmt": ["json", "yaml", "phps", "text", "html"],
+
+  // server base URL
+  "srvurl": "http://localhost:5000/api/"
+ }
+
+The server may add additional information.
+
+=head2 Action: B<meta>
+
+Return Rinci metadata for the code entity. When the entity does not have
+metadata, server should return 534 status (metadata not found).
+
+
+=head1 ACTIONS FOR C<package> ENTITIES
+
+Below are actions that must be supported by the C<package> entities.
+
+=head2 Action: B<list>
+
+List entities contained in this package. Additional request keys are: B<type>
+(string, optional, to limit only listing entities of a certain type; default is
+undef which means list all kinds of entities), B<recursive> (bool, optional, can
+be set to true to search subpackages; default is false which means only list
+entities in this namespace), B<q> (string, search terms, to only return matching
+some search terms; default is undef which means return all entities), B<detail>
+(bool, optional, whether to return just a list of code entity URIs or a detailed
+record for each entry, defaults to false).
+
+The server should return 200 status or 206 if partial list is returned. If
+B<detail> is true, for each entry a hash must be returned containing at least
+B<uri> and B<type>. Server may add additional information like B<summary>,
+B<description>, etc.
+
+Example, a C<list> action on the top namespace C</> might return the following:
+
+ [200,"OK",["pm:///Math","pm:///Utils"]]
+
+Another example, a C<list> action on the C<pm:///Math> namespace, with C<type>
+set to C<function> and C<q> to C<multiply>, and C<detail> set to true:
+
+ [200,"OK",
+  [
+   {"uri": "pm:///Math/multiply2",
+    "type": "function",
+    "summary": "Multiply two numbers"},
+
+   {"uri": "pm:///Math/multmany",
+    "type": "function",
+    "summary": "Multiply several numbers"}
+  ]
+ ]
+
+
+=head1 ACTIONS FOR C<function> ENTITIES
+
+Below are actions that are available for the C<function> entities. At least
+C<call> must be implemented by the server.
+
+=head2 Action: B<call>
+
+Call a function and return its result. Additional request keys include:
+
+=over 4
+
+=item * B<args>
+
+Hash, optional, function arguments, defaults to C<{}>.
+
+=back
+
+=head2 Action: B<complete>
+
+Complete function argument value, a la Bash tab completion where you have a
+semicompleted word and request possible values started by that word. Additional
+Rinci request keys include:
+
+=over 4
+
+=item * B<arg>
+
+String, required, the name of function argument to complete.
+
+=item * B<word>
+
+String, optional, word that needs to be completed. Defaults to empty string.
+
+=back
+
+The server should return a list of possible completions. Example, when
+completing a C<delete_user> function for the argument C<username>, and C<word>
+is "st", the server might return:
+
+ [200,"OK",["stella","steven","stuart"]]
+
+When there is no completion, the server should return an empty list:
+
+ [200,"OK",[]]
+
+
+=head1 FAQ
+
+=head2 Why no actions to modify metadata/code entities?
+
+Since the specification is extensible by adding more actions, you can implement
+this on your system. These actions are not specified by this specification
+because currently the main goal of the protocol is to provide API service and
+read-only access to the metadata.
+
+Alternatively, modifying metada/code entities can be implemented using calls to
+functions on the server which can perform the modifications.
+
+There are also some issues which need to be considered when adding these
+actions. First of all, security. Second, you need to decide whether to modify
+the running/in-memory copy or the actual source code/files (as the code entities
+are usually stored as). When modifying the in-memory copy, the server-side
+architecture may have multiple copies (multiple processes and machines). Do you
+want to modify all those copies or just one the one process?
+
+=head2 The name?
+
+B<Riap> stands for Rinci access protocol, but it is also an Indonesian word
+meaning: to gain in size or number.
+
+
+=head1 HISTORY
+
+=head2 1.1 (Jan 2012)
+
+Rename specification to Riap. Version bumped to 1.1 to various
+backward-incompatible adjustments to Rinci's terminologies.
+
+=head2 1.0 (Aug 2011)
+
+Split specification to L<Sub::Spec::HTTP>.
+
+=head2 May 2011
+
+First release of L<Sub::Spec::HTTP::Server>.
+
+
+=head1 SEE ALSO
+
+L<Rinci>
+
+B<SOAP, WSDL>. Popular in the early 2000's, with similar goals (easier service
+discovery, "simple" request/response protocol which can utilize HTTP or other
+transport layer). Falled out of favor along with the rise of JavaScript and REST
+and increased criticism against the complexity of XML. Which is ironic because
+SOAP was originally created to be the simpler alternative to ...
+
+B<CORBA>.
+
+=cut
