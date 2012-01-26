@@ -229,7 +229,7 @@ Hash, optional, function arguments, defaults to C<{}>.
 
 Complete function argument value, a la Bash tab completion where you have a
 semicompleted word and request possible values started by that word. Additional
-Rinci request keys include:
+Riap request keys include:
 
 =over 4
 
