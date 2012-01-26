@@ -49,7 +49,7 @@ keys, using C<-riap-*> syntax) from request variables. For example:
 might result in the following Riap request:
 
  {
-  "uri": 'pm:///PKG/SUBPKG/FUN',
+  "uri": 'pm:/My/App/PKG/SUBPKG/FUN',
   "action": 'call',
   "args": {"a1":1, "a2":[1,2]},
  }
@@ -61,7 +61,7 @@ Another example:
 will result in the following Rinci request:
 
  {
-  "uri": 'pm:///PKG/FUN',
+  "uri": 'pm:/PKG/FUN',
   "action": 'complete',
   "arg": 'a1',
   "word": 'x',
