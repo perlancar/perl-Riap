@@ -17,6 +17,13 @@ Examples are written in JSON (sometimes with added comments), but data
 structures can actually be encoded using other formats.
 
 
+=head1 STATUS
+
+The 1.1 specification is expected to stabilize after a few more iterations,
+perhaps around 1.1.10 or so. Before that, there will probably a few more
+incompatible changes, so caveat implementor.
+
+
 =head1 DESCRIPTION
 
 Rinci access protocol (Riap for short), is a client/server, request/response
