@@ -10,13 +10,13 @@ package Riap::HTTP; # just to make PodWeaver happy
 
 =head1 ABSTRACT
 
-This document specifies using HTTP/HTTPS as the transport layer for L<Riap>. For
-short, the protocol is called Riap/HTTP.
+This document specifies using HTTP/HTTPS as the transport layer for L<Riap>, or
+Riap::HTTP for short.
 
 
 =head1 DESCRIPTION
 
-Riap/HTTP is designed to be implemented by API service providers. It allows
+Riap::HTTP is designed to be implemented by API service providers. It allows
 custom URL layout and some additional features like logging, while utilizing
 various features already in HTTP (authentication, encryption using HTTPS, etc.)
 
@@ -176,5 +176,10 @@ as HTTP status. But this means losing the ability to differentiate between the
 two. We want the client to be able to differentiate whether the 500 (Internal
 server error) or 404 (Not found) code it is getting is from the HTTP or from the
 enveloped result.
+
+
+=head1 SEE ALSO
+
+L<Riap::TCP>
 
 =cut
