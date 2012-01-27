@@ -1,0 +1,69 @@
+package Riap::TCP; # just to make PodWeaver happy
+
+1;
+# ABSTRACT: Riap over TCP
+
+=head1 PROTOCOL VERSION
+
+ 1.1
+
+
+=head1 ABSTRACT
+
+This document specifies using L<Riap> directly over TCP, or Riap::TCP for short.
+
+
+=head1 DESCRIPTION
+
+Riap::TCP is a simpler alternative to L<Riap::HTTP>. It supports less features
+(currently only supports JSON, no encryption, no authentication, no sending of
+logging messages). It is suitable for localhost/localnet communication (e.g.
+between processes of different languages). For public-facing service, Riap::HTTP
+is more recommended.
+
+B<Client> first sends a request line of the following format:
+
+ "J" <size> <CRLF>
+
+That is, the letter C<J> (for JSON) and size of subsequent request body in
+bytes. Client then sends the Riap request in JSON, followed by CRLF.
+
+B<Server> replies by first sending a similar line:
+
+ "J" <size> <CRLF>
+
+followed by enveloped result encoded in JSON and a single <CRLF>. The next
+request can then be sent by client.
+
+If client/server sends an invalid request/response line, the connection can be
+closed.
+
+
+=head1 EXAMPLES
+
+Below are some examples of what is sent and received on the wire.
+
+ J9
+ {"v":0.9}
+ J40
+ [502,"Protocol version not implemented"]
+
+ J1
+ {
+ J20
+ [400,"Invalid JSON"]
+
+ J65
+ {"v":1.1,"action":"call","uri":"/Math/mult","args":{"a":2,"b":3}}
+ J12
+ [200,"OK",6]
+
+
+=head1 FAQ
+
+
+=head1 SEE ALSO
+
+L<Riap>, L<Riap::TCP>
+
+=cut
