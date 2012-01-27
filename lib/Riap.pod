@@ -75,6 +75,52 @@ sent, or keys contain invalid values.
 =back
 
 
+=head1 RIAP URI SCHEME
+
+To refer to code entities, a new URI scheme C<riap> is defined. URI scheme can
+be suffixed with transport, e.g. C<riap+tcp> (see L<Riap::TCP>), while
+C<riap+http>/C<riap+https> to refer to Riap over HTTP/HTTPS (see L<Riap::HTTP>).
+
+Without transport, the host part of URI can be used to refer to host language.
+For example:
+
+ # refer to Text::sprintfn module
+ riap://perl/Text/sprintfn/
+
+ # refer to sprintf function in Text::sprintfn
+ riap://perl/Text/sprintfn/sprintfn
+
+ # refer to PHP variable
+ riap://php/$var
+
+Scheme/host and parts of path are optional if you refer from the same host
+language or module. Examples:
+
+ # refer to Text::sprintfn module from another Perl module
+ /Text/sprintfn/
+
+ # refer to Text::Wrap module from Text::sprintfn
+ ../Wrap/
+
+If transport is used, host (and port) means network host (and port) as usual:
+
+ riap+tcp://localhost:7001/Foo/bar
+ riap+http://gudangapi.com/tax/id/validate_npwp
+
+Lest there is confusion, with Riap over HTTP/HTTPS there is also the
+<http>/C<https> URLs to access the services. The URI path for these do not
+necessarily map directly to code entities like in C<riap> URIs, they may also
+support additional features, as each service provider can choose custom URL
+layout. Example:
+
+ # access tax::id::validate_npwp function, call with arguments
+ http://gudangapi.com/ga/tax.id.validate_npwp?npwp=123456
+
+ # namespace/module can also be omitted when function name is unique. arguments
+ # can also be specified by position
+ http://gudangapi.com/ga/validate_npwp/123456
+
+
 =head1 THE REQUEST
 
 As mentioned previously, the Riap request is a mapping of request keys and their
@@ -91,14 +137,12 @@ The server should return 502 status if protocol version is not supported.
 =item * uri => STR
 
 Required. Specify the location to code entity. It is either a schemeless URI
-(e.g. C</Package/SubPackage/func>) or a URI with a scheme (e.g.
-C<pm:///Foo/Bar/func> which might point to a Perl function accessible by the
-Perl-based server). The URI with a scheme might point to a remote code entity
-(e.g. C<http://example.org/api/Foo/Bar/func>, in which case the server can
-decide to proxy it for the client or not.
+(e.g. C</Package/SubPackage/func>) to refer to "local" code entity or URI with a
+scheme to refer to a remote entity, e.g. C<http://example.org/api/Foo/Bar/func>,
+in which case the server can decide to proxy it for the client or not.
 
 The server should return 404 status if B<uri> does not map to an existing code
-entity.
+entity, or 403 if C<uri> is forbidden.
 
 =item * action => STR
 
@@ -146,8 +190,6 @@ enveloped with a 200 status):
 
   // actions available for this entity
   "acts": ["info", "call", "complete"],
-
-  "defact": "call",
 
   // supported input formats for HTTP request body,
   // for value of C<args> request key
