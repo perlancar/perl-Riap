@@ -10,14 +10,47 @@ package Riap::HTTP; # just to make PodWeaver happy
 
 =head1 ABSTRACT
 
-This document specifies using HTTP as the transport layer for L<Riap>.
+This document specifies using HTTP/HTTPS as the transport layer for L<Riap>. For
+short, the protocol is called Riap/HTTP.
 
 
 =head1 DESCRIPTION
 
+Riap/HTTP is designed to be implemented by API service providers. It allows
+custom URL layout and some additional features like logging, while utilizing
+various features already in HTTP (authentication, encryption using HTTPS, etc.)
+
 Server listens to HTTP requests, parses them into Riap requests, executes the
 Riap requests, and sends the results to clients.
 
+
+=head2 Additional Riap request keys
+
+=item * ofmt => STR
+
+Specify result ("output") format. Defaults to C<json>, which the server MUST
+accept. Server can accept additional result formats if it wants to, like
+C<yaml>, C<xml>, or C<phps> (PHP serialization format).
+
+Server should give response in C<json> if requested result format is not
+supported.
+
+
+=head2 Additional information keys must returned by server
+
+These are keys in the information hash returned by the C<info> action.
+
+=over 4
+
+=item * ifmts => ARRAY OF STR
+
+Supported input formats in HTTP request body.
+
+=item * ofmts => ARRAY OF STR
+
+Supported output formats.
+
+=back
 
 =head2 Parsing Riap request from HTTP request
 
@@ -73,7 +106,7 @@ will result in the following Rinci request:
 Riap over HTTP also allows a mechanism to pass logging messages during function
 calls by using HTTP chunked response.
 
-Two additional keys are recognized using this transport:
+Two additional Riap request keys are recognized for this:
 
 =over 4
 

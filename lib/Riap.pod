@@ -3,7 +3,7 @@ package Riap; # just to make PodWeaver happy
 1;
 # ABSTRACT: Rinci access protocol
 
-=head1 SPECIFICATION VERSION
+=head1 PROTOCOL VERSION
 
  1.1
 
@@ -21,7 +21,8 @@ structures can actually be encoded using other formats.
 
 The 1.1 specification is expected to stabilize after a few more iterations,
 perhaps around 1.1.10 or so. Before that, there will probably a few more
-incompatible changes, so caveat implementor.
+incompatible changes, especially since L<Riap::TCP> is new, so caveat
+implementor.
 
 
 =head1 DESCRIPTION
@@ -130,9 +131,9 @@ values. Some request keys:
 
 =item * v => FLOAT
 
-Required. Specify Riap protocol version. Currently must have the value of C<1.1>
-
-The server should return 502 status if protocol version is not supported.
+Required. Specify Riap protocol version. Currently must have the value of
+C<1.1>. The server should return 502 status if protocol version is not
+supported.
 
 =item * uri => STR
 
@@ -151,15 +152,6 @@ Required. Specify action to perform on the code entity.
 The server should return 502 status if an action is unknown for the specified
 URI. The server should return 401/403 status if authentication is required or
 action is not allowed for the specified code entity, respectively.
-
-=item * ofmt => STR
-
-Specify result ("output") format. Defaults to C<json>, which the server MUST
-accept. Server can accept additional result formats if it wants to, like
-C<yaml>, C<xml>, or C<phps> (PHP serialization format).
-
-Server should give response in C<json> if requested result format is not
-supported.
 
 =back
 
@@ -190,13 +182,6 @@ enveloped with a 200 status):
 
   // actions available for this entity
   "acts": ["info", "call", "complete"],
-
-  // supported input formats for HTTP request body,
-  // for value of C<args> request key
-  "ifmt": ["json", "yaml", "phps"],
-
-  // supported result ("output") formats
-  "ofmt": ["json", "yaml", "phps", "text", "html"],
 
   // server base URL
   "srvurl": "http://localhost:5000/api/"
