@@ -1,9 +1,11 @@
 package Riap; # just to make PodWeaver happy
 
+# VERSION
+
 1;
 # ABSTRACT: Rinci access protocol
 
-=head1 PROTOCOL VERSION
+=head1 SPECIFICATION VERSION
 
  1.1
 

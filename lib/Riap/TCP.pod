@@ -1,5 +1,7 @@
 package Riap::TCP; # just to make PodWeaver happy
 
+# VERSION
+
 1;
 # ABSTRACT: Riap over TCP
 

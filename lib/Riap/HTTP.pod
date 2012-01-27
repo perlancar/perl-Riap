@@ -1,5 +1,7 @@
 package Riap::HTTP; # just to make PodWeaver happy
 
+# VERSION
+
 1;
 # ABSTRACT: Riap over HTTP
 
