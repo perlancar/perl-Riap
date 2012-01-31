@@ -133,9 +133,8 @@ values. Some request keys:
 
 =item * v => FLOAT
 
-Required. Specify Riap protocol version. Currently must have the value of
-C<1.1>. The server should return 502 status if protocol version is not
-supported.
+Specify Riap protocol version. If not specified, default is C<1.1>. Server
+should return 502 status if it does not support requested protocol version.
 
 =item * uri => STR
 
@@ -176,20 +175,12 @@ enveloped with a 200 status):
   // server's protocol version
   "v": 1.1,
 
-  // entity's canonical URL
-  "url": "http://localhost:5000/api/Package/SubPkg/func",
-
   // entity's type
   "type": "function",
-
-  // actions available for this entity
-  "acts": ["info", "call", "complete"],
-
-  // server base URL
-  "srvurl": "http://localhost:5000/api/"
  }
 
-The server may add additional information.
+Server may add additional keys. Transport specification like L<Riap::TCP> or
+L<Riap::HTTP> might require additional keys.
 
 =head2 Action: B<meta>
 
