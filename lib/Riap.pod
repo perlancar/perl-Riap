@@ -177,6 +177,9 @@ enveloped with a 200 status):
 
   // entity's type
   "type": "function",
+
+  // canonical URI for the entity
+  "uri": "/Package/SubPkg/",
  }
 
 Server may add additional keys. Transport specification like L<Riap::TCP> or
