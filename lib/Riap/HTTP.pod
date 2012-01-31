@@ -19,8 +19,9 @@ Riap::HTTP for short.
 =head1 DESCRIPTION
 
 Riap::HTTP is designed to be implemented by API service providers. It allows
-custom URL layout and some additional features like logging, while utilizing
-various features already in HTTP (authentication, encryption using HTTPS, etc.)
+features like custom URL layout, multiple serialization format, and logging;
+while depends on HTTP for other features like authentication, encryption
+(HTTPS), etc. For a more lightweight alternative, look at L<Riap::TCP>.
 
 Server listens to HTTP requests, parses them into Riap requests, executes the
 Riap requests, and sends the results to clients.
@@ -28,9 +29,9 @@ Riap requests, and sends the results to clients.
 
 =head2 Additional Riap request keys
 
-=item * ofmt => STR
+=item * fmt => STR
 
-Specify result ("output") format. Defaults to C<json>, which the server MUST
+Specify serialization format to use. Defaults to C<json>, which the server MUST
 accept. Server can accept additional result formats if it wants to, like
 C<yaml>, C<xml>, or C<phps> (PHP serialization format).
 
@@ -38,21 +39,19 @@ Server should give response in C<json> if requested result format is not
 supported.
 
 
-=head2 Additional information keys must returned by server
+=head2 Additional info keys
 
-These are keys in the information hash returned by the C<info> action.
+For the C<info> action on the root package entity, these additional keys MUST be
+returned by the server:
 
-=over 4
+ {
+  // server's absolute URL
+  "srvurl": "riap+tcp://localhost:5000/",
 
-=item * ifmts => ARRAY OF STR
+  // supported serialization formats
+  "fmt": ["json","yaml","phps"],
+ }
 
-Supported input formats in HTTP request body.
-
-=item * ofmts => ARRAY OF STR
-
-Supported output formats.
-
-=back
 
 =head2 Parsing Riap request from HTTP request
 
