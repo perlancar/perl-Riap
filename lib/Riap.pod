@@ -201,7 +201,9 @@ be set to true to search subpackages; default is false which means only list
 entities in this namespace), B<q> (string, search terms, to only return matching
 some search terms; default is undef which means return all entities), B<detail>
 (bool, optional, whether to return just a list of code entity URIs or a detailed
-record for each entry, defaults to false).
+record for each entry, defaults to false; if true, then server must return info
+hash for each entry, where each info hash like that returned by the C<info>
+action).
 
 The server should return 200 status or 206 if partial list is returned. If
 B<detail> is true, for each entry a hash must be returned containing at least
