@@ -21,10 +21,9 @@ structures can actually be encoded using other formats.
 
 =head1 STATUS
 
-The 1.1 specification is expected to stabilize after a few more iterations,
-perhaps around 1.1.10 or so. Before that, there will probably a few more
-incompatible changes, especially since L<Riap::TCP> is new, so caveat
-implementor.
+The 1.1 series does not guarantee full backward compatibility between revisions,
+so caveat implementor. However, major incompatibility will bump the version to
+1.2 or 2.0.
 
 
 =head1 DESCRIPTION
