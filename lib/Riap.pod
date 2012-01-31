@@ -160,8 +160,9 @@ Additional keys might be recognized and/or required according to the action.
 
 =head1 COMMON ACTIONS
 
-Below are the actions which must be implemented by the server for all kinds of
-entities.
+Below are the actions which can be implemented by the server. Server can choose
+to not implement any action, or implement additional actions. But for actions
+mentioned below, the specification must be followed.
 
 =head2 Action: B<info>
 
