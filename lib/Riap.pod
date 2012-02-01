@@ -95,6 +95,12 @@ For example:
  # refer to PHP variable
  riap://php/$var
 
+ # UNDECIDED: refer to class metadata
+ riap://perl/My/Class/:class
+
+ # UNDECIDED: refer to distribution metadata
+ riap://perl/My/Dist/:distribution
+
 Scheme/host and parts of path are optional if you refer from the same host
 language or module. Examples:
 
