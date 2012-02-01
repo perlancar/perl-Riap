@@ -113,7 +113,7 @@ language or module. Examples:
 If transport is used, host (and port) means network host (and port) as usual:
 
  riap+tcp://localhost:7001/Foo/bar
- riap+http://gudangapi.com/tax/id/validate_npwp
+ riap+http://gudangapi.com/tax/id/npwp/validate_npwp
 
 Lest there is confusion, with Riap over HTTP/HTTPS there is also the
 <http>/C<https> URLs to access the services. The URI path for these do not
@@ -122,7 +122,7 @@ support additional features, as each service provider can choose custom URL
 layout. Example:
 
  # access tax::id::validate_npwp function, call with arguments
- http://gudangapi.com/ga/tax.id.validate_npwp?npwp=123456
+ http://gudangapi.com/ga/tax.id.npwp/validate_npwp?npwp=123456
 
  # namespace/module can also be omitted when function name is unique. arguments
  # can also be specified by position
