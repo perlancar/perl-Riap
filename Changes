@@ -2,12 +2,14 @@ Revision history for Riap
 
 1.1.4	 2012-02-01
 
-         + 'v' request key is optional, defaults to 1.1.
-
-         + Change required result keys of 'info' action.
-
          + Declare that in 1.1 series, minor backward compatibility problems
            between revisions are to be expected.
+
+         + Make 'v' request key optional, defaults to 1.1.
+
+         + Rename 'ofmt' request key to 'fmt'.
+
+         + Change required result keys of 'info' action.
 
 
 1.1.3	 2012-01-27
