@@ -197,8 +197,8 @@ resources (business "objects", higher-level entities) to URI's. For example:
  # REST (verb + URI)
  GET /user          # list users
  GET /user/123      # get specific user
- PUT /user          # create a new user
- POST /user/123     # modify user
+ POST /user         # create a new user
+ PUT /user/123      # modify user
  DELETE /user/123
 
 Which one to choose is arguably just a matter of style. REST-style gives some
