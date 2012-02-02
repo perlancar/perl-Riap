@@ -176,23 +176,18 @@ Since enveloped result is modeled somewhat closely after HTTP message,
 especially the status code, it might make sense to use the status code directly
 as HTTP status. But this means losing the ability to differentiate between the
 two. We want the client to be able to differentiate whether the 500 (Internal
-server error) or 404 (Not found) code it is getting is from the HTTP or from the
-enveloped result.
+server error) or 404 (Not found) code it is getting is from the HTTP
+server/proxies/client or from the enveloped result.
 
 =head2 Riap/Riap::HTTP vs REST? Which one to choose for my web service?
 
-Riap maps code entities (packages and functions) to URI's, while REST maps
-resources (business "objects", higher-level entities) to URI's. For example:
+Riap maps code entities (packages and functions), while REST maps resources
+(like business entities) to URI's. For example:
 
  # Riap
  /User/             # package
  /User/list_users   # function
  /User/create_user  # function
-
- # Riap::HTTP which directly translates URIs from HTTP request to Riap
- /User/get_user?id=123
- /User/modify_user?id=123&name=Lisa
- /User/delete_user?id=123
 
  # REST (verb + URI)
  GET /user          # list users
@@ -201,12 +196,12 @@ resources (business "objects", higher-level entities) to URI's. For example:
  PUT /user/123      # modify user
  DELETE /user/123
 
-Which one to choose is arguably just a matter of style. REST-style gives some
-consistency in terms of finding resources and standardized verbs, but might be
-more cumbersome if you want to introduce more verbs. Riap::HTTP provides
-convenience in exporting a set of API modules and functions.
-
-There are Rinci-based tools to create REST-style service. For example, see
+Riap is more RPC style, and it is more straightforward if you want to export a
+set of code modules and functions as API. But it also defines standard and
+extensible "verbs" (actions). It also helps service discoverability and
+self-description due to the C<list> action and the rich Rinci metadata.
+Riap::HTTP can also use custom routing so if you want you can make it use REST
+style, while still fulfilling request with Riap in the backend. For example, see
 L<Serabi> in Perl.
 
 
