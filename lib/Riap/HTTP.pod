@@ -74,9 +74,10 @@ accept at least body of type C<application/json>. It can accept additional types
 if it wants, e.g. C<text/yaml> or C<application/vnd.php.serialized>.
 
 The server can also accept Rinci request keys or function arguments using other
-means, for example, L<Serabi>, a Perl server implementation, allows parsing
-C<uri> from URI path, and function arguments (as well as other Riap request
-keys, using C<-riap-*> syntax) from request variables. For example:
+means, for example, L<Plack::Access::HTTP::Server>, a Perl server
+implementation, allows parsing C<uri> from URI path, and function arguments (as
+well as other Riap request keys, using C<-riap-*> syntax) from request
+variables. For example:
 
  http://HOST/api/PKG/SUBPKG/FUN?a1=1&a2:j=[1,%202]
 
@@ -145,7 +146,7 @@ because of missing argument:
  --- Response ---
  HTTP/1.0 200 OK
  Date: Sat, 14 Jan 2012 17:11:40 GMT
- Server: Serabi/1.0
+ Server: Perinci::Access::HTTP::Server/0.01
  Content-Type: application/json
 
  [400,"Missing required argument: b"]
@@ -161,7 +162,7 @@ arguments through the X-Riap-Args HTTP header:
  --- Response ---
  HTTP/1.0 200 OK
  Date: Sat, 14 Jan 2012 17:11:50 GMT
- Server: Serabi/1.0
+ Server: Perinci::Access::HTTP::Server/0.01
  Content-Type: application/json
 
  [200,"OK",6]
