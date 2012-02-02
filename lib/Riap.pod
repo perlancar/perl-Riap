@@ -332,9 +332,9 @@ L<Rinci>
 
 B<SOAP, WSDL>. Popular in the early 2000's, with similar goals (easier service
 discovery, "simple" request/response protocol which can utilize HTTP or other
-transport layer). Falled out of favor along with the rise of JavaScript and REST
+transport layer). Fell out of favor along with the rise of JavaScript and REST
 and increased criticism against the complexity of XML. Which is ironic because
-SOAP was originally created to be the simpler alternative to ...
+SOAP was originally created to be the simpler alternative to CORBA.
 
 B<CORBA>.
 
