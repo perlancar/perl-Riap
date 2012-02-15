@@ -186,6 +186,9 @@ enveloped with a 200 status):
 
   // canonical URI for the entity
   "uri": "/Package/SubPkg/",
+
+  // list of actions available for this URI
+  "acts": ["info","meta","call","complete"]
  }
 
 Server may add additional keys. Transport specification like L<Riap::TCP> or
