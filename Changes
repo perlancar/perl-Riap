@@ -1,5 +1,11 @@
 Revision history for Riap
 
+1.1.5	 2012-02-15
+
+         Some fixes (build/deps, examples, 'info' action should contain 'acts')
+         and minor updates.
+
+
 1.1.4	 2012-02-01
 
          + Declare that in 1.1 series, minor backward compatibility problems
