@@ -36,7 +36,7 @@ including direct TCP. L<Riap::HTTP> explains how Riap can be used over HTTP.
 
 The server side is viewed as being a tree of code entities, with a package
 entity at the root. The other entities, such as subpackages, functions,
-variables, etc are discovered by client by performing a C<list> action on a
+variables, etc are discovered by client by performing a C<actions> action on a
 package entity. The client can also perform a C<meta> action on any code entity
 to get its metadata, as specified by the L<Rinci> specification. There are other
 actions that can be performed on code entities, like C<call> on functions to
@@ -177,22 +177,49 @@ requires no additional request keys. Upon success, the server must return a hash
 result with at least the following keys (remember that the result is actually
 enveloped with a 200 status):
 
- {
-  // server's protocol version
-  "v": 1.1,
+ [200,"OK",
+  {
+   // server's protocol version
+   "v": 1.1,
 
-  // entity's type
-  "type": "function",
+   // entity's type
+   "type": "function",
 
-  // canonical URI for the entity
-  "uri": "/Package/SubPkg/",
+   // canonical URI for the entity
+   "uri": "/Package/SubPkg/",
+  }
+ ]
 
-  // list of actions available for this URI
-  "acts": ["info","meta","call","complete"]
- }
+Server may add additional information keys. Transport specification like
+L<Riap::TCP> or L<Riap::HTTP> might require additional keys.
 
-Server may add additional keys. Transport specification like L<Riap::TCP> or
-L<Riap::HTTP> might require additional keys.
+=head2 Action: B<actions>
+
+List available actions for code entity. The server should return a list of
+action names:
+
+ [200,"OK",
+  ["info","actions","meta","call","complete_arg_name","complete_arg_val"]
+ ]
+
+Additional request key: B<detail> (bool, optional, default false, can be set to
+true to make server return a list of records instead).
+
+Under B<detail>, server should return something like this:
+
+ [200,"OK",
+  [
+   {"name":"info", "summary":"Get general information about code entity"},
+   {"name":"actions","summary":"List available actions for code entity"},
+   {"name":"meta","summary":"Get metadata for code entity"},
+   {"name":"call","summary":"Call function"},
+   {"name":"complete_arg_name","summary":"Complete function's argument name"},
+   {"name":"complete_arg_val","summary":"Complete function's argument value"}
+  ]
+ ]
+
+It can return additional field like C<keys> to explain additional
+required/optional request keys (XXX not yet specified).
 
 =head2 Action: B<meta>
 
@@ -224,7 +251,9 @@ B<description>, etc.
 
 Example, a C<list> action on the top namespace C</> might return the following:
 
- [200,"OK",["pm:///Math","pm:///Utils"]]
+ [200,"OK",
+  ["pm:///Math","pm:///Utils"]
+ ]
 
 Another example, a C<list> action on the C<pm:///Math> namespace, with C<type>
 set to C<function> and C<q> to C<multiply>, and C<detail> set to true:
@@ -259,7 +288,32 @@ Hash, optional, function arguments, defaults to C<{}>.
 
 =back
 
-=head2 Action: B<complete>
+=head2 Action: B<complete_arg_name>
+
+Complete function argument name. Client can actually get metadata using the
+C<meta> action and complete argument name itself, but using this action will use
+less network bandwidth as the metadata is relatively larger. Additional request
+keys:
+
+=item * B<word>
+
+String, optional, word that needs to be completed. Defaults to empty string.
+
+=back
+
+The server should return a list of possible completions. Example:
+
+ [200,"OK",
+  ["arg1","arg2","arg3"]
+ ]
+
+When there is no completion, the server should return an empty list:
+
+ [200,"OK",
+  []
+ ]
+
+=head2 Action: B<complete_arg_val>
 
 Complete function argument value, a la Bash tab completion where you have a
 semicompleted word and request possible values started by that word. Additional
@@ -281,11 +335,15 @@ The server should return a list of possible completions. Example, when
 completing a C<delete_user> function for the argument C<username>, and C<word>
 is "st", the server might return:
 
- [200,"OK",["stella","steven","stuart"]]
+ [200,"OK",
+  ["stella","steven","stuart"]
+ ]
 
 When there is no completion, the server should return an empty list:
 
- [200,"OK",[]]
+ [200,"OK",
+  []
+ ]
 
 
 =head1 FAQ
