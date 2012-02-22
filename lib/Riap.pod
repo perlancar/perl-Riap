@@ -114,7 +114,7 @@ If transport is used, host (and port) means network host (and port) as usual:
  riap+http://gudangapi.com/tax/id/npwp/validate_npwp
 
 Lest there is confusion, with Riap over HTTP/HTTPS there is also the
-<http>/C<https> URLs to access the services. The URI path for these do not
+C<http>/C<https> URLs to access the services. The URI path for these do not
 necessarily map directly to code entities like in C<riap> URIs, they may also
 support additional features, as each service provider can choose custom URL
 layout. Example:
