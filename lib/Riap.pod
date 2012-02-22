@@ -30,8 +30,8 @@ so caveat implementor. However, major incompatibility will bump the version to
 
 Rinci access protocol (Riap for short), is a client/server, request/response
 protocol for requesting metadata and performing actions on code entities. It is
-modelled closely after HTTP, but a different protocol. It can be layered on top
-of HTTP (as its transport protocol) but can also uses other transports,
+modeled closely after HTTP, but is a different protocol. It can be layered on
+top of HTTP (as its transport protocol) but can also use other transports,
 including direct TCP. L<Riap::HTTP> explains how Riap can be used over HTTP.
 
 The server side is viewed as being a tree of code entities, with a package
