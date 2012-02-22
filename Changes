@@ -1,5 +1,15 @@
 Revision history for Riap
 
+1.1.7	 2012-02-22
+
+         + (REMOVE, INCOMPATIBLE) Remove action 'complete_arg_name'. This action
+           can be implemented in the client side by retrieving function metadata
+           using 'meta' action (this requires larger bandwidth, but clients can
+           do caching). It is better to implement this on the client side due to
+           specific requirements like --foo vs -foo, --boolopt as well as
+           --noboolopt (or --no-boolopt), and so on.
+
+
 1.1.6	 2012-02-22
 
          + Add new action 'actions'. To list available actions on a code entity,
