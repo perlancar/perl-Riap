@@ -199,7 +199,7 @@ List available actions for code entity. The server should return a list of
 action names:
 
  [200,"OK",
-  ["info","actions","meta","call","complete_arg_name","complete_arg_val"]
+  ["info","actions","meta","call","complete_arg_val"]
  ]
 
 Additional request key: B<detail> (bool, optional, default false, can be set to
@@ -213,7 +213,6 @@ Under B<detail>, server should return something like this:
    {"name":"actions","summary":"List available actions for code entity"},
    {"name":"meta","summary":"Get metadata for code entity"},
    {"name":"call","summary":"Call function"},
-   {"name":"complete_arg_name","summary":"Complete function's argument name"},
    {"name":"complete_arg_val","summary":"Complete function's argument value"}
   ]
  ]
@@ -287,31 +286,6 @@ Call a function and return its result. Additional request keys include:
 Hash, optional, function arguments, defaults to C<{}>.
 
 =back
-
-=head2 Action: B<complete_arg_name>
-
-Complete function argument name. Client can actually get metadata using the
-C<meta> action and complete argument name itself, but using this action will use
-less network bandwidth as the metadata is relatively larger. Additional request
-keys:
-
-=item * B<word>
-
-String, optional, word that needs to be completed. Defaults to empty string.
-
-=back
-
-The server should return a list of possible completions. Example:
-
- [200,"OK",
-  ["arg1","arg2","arg3"]
- ]
-
-When there is no completion, the server should return an empty list:
-
- [200,"OK",
-  []
- ]
 
 =head2 Action: B<complete_arg_val>
 
