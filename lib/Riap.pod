@@ -35,14 +35,11 @@ top of HTTP (as its transport protocol) but can also use other transports,
 including direct TCP. L<Riap::HTTP> explains how Riap can be used over HTTP.
 
 The server side is viewed as being a tree of code entities, with a package
-entity at the root. The other entities, such as subpackages, functions,
-variables, etc are discovered by client by performing a C<actions> action on a
-package entity. The client can also perform a C<meta> action on any code entity
-to get its metadata, as specified by the L<Rinci> specification. There are other
-actions that can be performed on code entities, like C<call> on functions to
-perform remote call. The protocol can be extended by introducing more actions.
-The list of performable actions, as well as other information, can be discovered
-by performing an C<info> action on the code entity first.
+entity at the root. Other entities (such as subpackages, functions, variables)
+are discoverable by performing C<list> actions on package entities. Entity's
+metadata can be retrieved using the C<meta> action. There are other actions
+defined in the specification; and the protocol can be extended by introducing
+more actions.
 
 
 =head1 TERMINOLOGIES
