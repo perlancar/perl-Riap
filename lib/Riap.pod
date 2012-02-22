@@ -77,8 +77,9 @@ sent, or keys contain invalid values.
 =head1 RIAP URI SCHEME
 
 To refer to code entities, a new URI scheme C<riap> is defined. URI scheme can
-be suffixed with transport, e.g. C<riap+tcp> (see L<Riap::TCP>), while
-C<riap+http>/C<riap+https> to refer to Riap over HTTP/HTTPS (see L<Riap::HTTP>).
+be suffixed with transport, e.g. C<riap+tcp> for Riap over direct TCP (see
+L<Riap::TCP>) or C<riap+http>/C<riap+https> for Riap over HTTP/HTTPS (see
+L<Riap::HTTP>).
 
 Without transport, the host part of URI can be used to refer to host language.
 For example:
