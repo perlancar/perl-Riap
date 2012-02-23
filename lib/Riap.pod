@@ -221,7 +221,8 @@ required/optional request keys (XXX not yet specified).
 =head2 Action: B<meta>
 
 Return Rinci metadata for the code entity. When the entity does not have
-metadata, server should return 534 status (metadata not found).
+metadata, server should return 404 status or better yet 534 (metadata not
+found).
 
 
 =head1 ACTIONS FOR C<package> ENTITIES
