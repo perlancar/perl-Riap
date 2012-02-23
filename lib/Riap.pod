@@ -268,6 +268,23 @@ set to C<function> and C<q> to C<multiply>, and C<detail> set to true:
   ]
  ]
 
+=head2 Action: B<child_metas>
+
+Get metadata for all the children entities of the package entity.
+
+This action can reduce the number of round-trips, as opposed to client
+performing C<list> action followed by C<meta> for each child.
+
+Example, an C<child_metas> action on the top namespace C</> might return the
+following:
+
+ [200,"OK",
+  {
+   "pm:///Math":  {"v":1.1, "summary":"This is metadata for Math"},
+  ,"pm:///Utils": {"v":1.1, "summary":"This is metadata for Utils"}
+  }
+ ]
+
 
 =head1 ACTIONS FOR C<function> ENTITIES
 
