@@ -34,7 +34,8 @@ Riap requests, and sends the results to clients.
 Specify output serialization format to use. Server MUST support at least
 C<json>. If unspecified, default in most cases should also be C<json>. Server
 can default to other format, like L<html> or L<text>, for convenience of certain
-clients like GUI browser.
+clients like GUI browser. Server should detect appropriate default output format
+from C<Accept> HTTP request header.
 
 Server can support additional output formats like C<yaml>, C<xml>, or C<phps>
 (PHP serialization format). To find out what serializations are supported,
@@ -81,17 +82,17 @@ also send a multi-part MIME document, where it can send C<args> as well as other
 data (like file uploads). It is currently up to the server to support this.
 
 The server can also accept Rinci request keys or function arguments using other
-means, for example, L<Plack::Access::HTTP::Server>, a Perl server
-implementation, allows parsing C<uri> from URI path, and function arguments (as
-well as other Riap request keys, using C<-riap-*> syntax) from request
-variables. For example:
+means. For example, L<Plack::Middleware::PeriAHS::ParseRequest>, from Perl
+server implementation, allows parsing Riap request keys like C<uri> from URI
+path, and C<args> keys (as well as other Riap request keys, using C<-riap-*>
+syntax) from request variables. For example:
 
  http://HOST/api/PKG/SUBPKG/FUN?a1=1&a2:j=[1,%202]
 
 might result in the following Riap request:
 
  {
-  "uri": 'pm:/My/App/PKG/SUBPKG/FUN',
+  "uri": '/PKG/SUBPKG/FUN',
   "action": 'call',
   "args": {"a1":1, "a2":[1,2]},
  }
@@ -103,7 +104,7 @@ Another example:
 will result in the following Rinci request:
 
  {
-  "uri": 'pm:/PKG/FUN',
+  "uri": '/PKG/FUN',
   "action": 'complete_arg_val',
   "arg": 'a1',
   "word": 'x',
@@ -138,16 +139,16 @@ loglevel, so clients can parse/separate log message from result.
 
 =head1 EXAMPLES
 
-Below are some examples of what is sent and received on the wire. For these
-examples, the server has the following URL scheme
-http://example.org/api/v1/<URI>. It detects desired output format from the
-C<Accept> HTTP request header.
+Below are some examples of what is sent and received over the wire. For these
+examples, the server has the following URL scheme http://example.org/api/<URI>.
+Server also assume the default values for these Riap request keys so they do not
+have to be specified by client: C<v> (1.1), C<action> (call).
 
 Call a function, passing function arguments via query parameter, unsuccessfully
 because of missing argument:
 
  --- Request ---
- GET /api/v1/Math/multiply2?a=2 HTTP/1.0
+ GET /api/Math/multiply2?a=2 HTTP/1.0
  Accept: application/json
 
  --- Response ---
@@ -162,7 +163,7 @@ Call the same function, successfully this time. As a variation we pass function
 arguments through the X-Riap-Args HTTP header:
 
  --- Request ---
- GET /api/v1/Math/multiply2 HTTP/1.0
+ GET /api/Math/multiply2 HTTP/1.0
  X-Riap-Args-j-: {"a":2,"b":3}
  Accept: application/json
 
@@ -200,7 +201,7 @@ Riap maps code entities (packages and functions), while REST maps resources
  GET /user          # list users
  GET /user/123      # get specific user
  POST /user         # create a new user
- PUT /user/123      # modify user
+ PATCH /user/123    # modify user
  DELETE /user/123
 
 Riap is more RPC style, and it is more straightforward if you want to export a
