@@ -31,9 +31,14 @@ Riap requests, and sends the results to clients.
 
 =item * fmt => STR
 
-Specify serialization format to use. Defaults to C<json>, which the server MUST
-accept. Server can accept additional result formats if it wants to, like
-C<yaml>, C<xml>, or C<phps> (PHP serialization format).
+Specify output serialization format to use. Server MUST support at least
+C<json>. If unspecified, default in most cases should also be C<json>. Server
+can default to other format, like L<html> or L<text>, for convenience of certain
+clients like GUI browser.
+
+Server can support additional output formats like C<yaml>, C<xml>, or C<phps>
+(PHP serialization format). To find out what serializations are supported,
+client can perform an C<info> action on a code entity (see below).
 
 Server should give response in C<json> if requested result format is not
 supported.
@@ -66,12 +71,14 @@ value (notice the ending C<->), e.g.
 
  X-Riap-Args-j-: {"arg1":"val1","arg2":[1,2,3]}
 
-This allows the server to have its own URL scheme, while allowing a way for
+This allows the server to have its own URL scheme, while allowing a way for a
 common access mechanism.
 
 The server MUST also accept C<args> from HTTP request body. The server MUST
 accept at least body of type C<application/json>. It can accept additional types
-if it wants, e.g. C<text/yaml> or C<application/vnd.php.serialized>.
+if it wants, e.g. C<text/yaml> or C<application/vnd.php.serialized>. Client can
+also send a multi-part MIME document, where it can send C<args> as well as other
+data (like file uploads). It is currently up to the server to support this.
 
 The server can also accept Rinci request keys or function arguments using other
 means, for example, L<Plack::Access::HTTP::Server>, a Perl server
