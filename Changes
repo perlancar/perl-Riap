@@ -1,5 +1,15 @@
 Revision history for Riap
 
+1.1.8	 2012-03-01
+
+         + Add new action: child_metas
+
+         + HTTP: Add new action: srvinfo
+
+         + HTTP: The valid values of 'fmt' is now up to the implementation
+           (except that 'json' still needs to be supported).
+
+
 1.1.7	 2012-02-22
 
          + (REMOVE, INCOMPATIBLE) Remove action 'complete_arg_name'. This action
