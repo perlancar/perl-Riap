@@ -41,17 +41,6 @@ If client/server sends an invalid request/response line, the connection can be
 closed.
 
 
-=head2 Additional info keys
-
-For the C<info> action on the root package entity, these additional keys MUST be
-returned by the server:
-
- {
-  // server's absolute URL
-  "srvurl": "riap+tcp://localhost:5000/",
- }
-
-
 =head1 EXAMPLES
 
 Below are some examples of what is sent and received on the wire.

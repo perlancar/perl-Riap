@@ -29,33 +29,38 @@ Riap requests, and sends the results to clients.
 
 =head2 Additional Riap request keys
 
+=over 4
+
 =item * fmt => STR
 
-Specify output serialization format to use. Server MUST support at least
-C<json>. If unspecified, default in most cases should also be C<json>. Server
-can default to other format, like L<html> or L<text>, for convenience of certain
-clients like GUI browser. Server should detect appropriate default output format
-from C<Accept> HTTP request header.
+Specify output serialization format to use. The format names are decided by the
+implementation, but server MUST support C<json> as the fallback. If unspecified,
+default in most cases should also be C<json>, but server can default to other
+format, like say L<HTML> or L<text>, for viewing convenience of certain clients
+like GUI browser. Server should detect appropriate default output format from
+C<Accept> HTTP request header.
 
-Server can support additional output formats like C<yaml>, C<xml>, or C<phps>
-(PHP serialization format). To find out what serializations are supported,
-client can perform an C<info> action on a code entity (see below).
+To find out what serializations are supported, client can perform an C<srvinfo>
+action.
 
-Server should give response in C<json> if requested result format is not
-supported.
+Server should fallback to C<json> if requested result format is not supported.
+
+=back
 
 
-=head2 Additional info keys
+=head2 Additional actions
 
-For the C<info> action on the root package entity, these additional keys MUST be
-returned by the server:
+=head3 Action: B<srvinfo>
+
+Just like C<info> action, but get information about the server instead. Server
+MUST at least return the following keys in the result hash.
 
  {
   // server's absolute URL
-  "srvurl": "riap+tcp://localhost:5000/",
+  "srvurl": "http://localhost:5000/",
 
-  // supported serialization formats
-  "fmt": ["json","yaml","phps"],
+  // supported formats
+  "fmt": ["Console","HTML","JSON","PHPSerialization","YAML","json"],
  }
 
 
@@ -76,10 +81,10 @@ This allows the server to have its own URL scheme, while allowing a way for a
 common access mechanism.
 
 The server MUST also accept C<args> from HTTP request body. The server MUST
-accept at least body of type C<application/json>. It can accept additional types
-if it wants, e.g. C<text/yaml> or C<application/vnd.php.serialized>. Client can
-also send a multi-part MIME document, where it can send C<args> as well as other
-data (like file uploads). It is currently up to the server to support this.
+accept at least body of type C<application/json>, but it can accept other types.
+The server MUST not interpret C<application/x-www-form-urlencoded> for this
+purpose (and interpret it as a normal web form). Server MUST return response 400
+if document type is not recognized.
 
 The server can also accept Rinci request keys or function arguments using other
 means. For example, L<Plack::Middleware::PeriAHS::ParseRequest>, from Perl
@@ -154,7 +159,7 @@ because of missing argument:
  --- Response ---
  HTTP/1.0 200 OK
  Date: Sat, 14 Jan 2012 17:11:40 GMT
- Server: Perinci::Access::HTTP::Server/0.01
+ Server: PeriAHS/0.01
  Content-Type: application/json
 
  [400,"Missing required argument: b"]
@@ -170,7 +175,7 @@ arguments through the X-Riap-Args HTTP header:
  --- Response ---
  HTTP/1.0 200 OK
  Date: Sat, 14 Jan 2012 17:11:50 GMT
- Server: Perinci::Access::HTTP::Server/0.01
+ Server: PeriAHS/0.01
  Content-Type: application/json
 
  [200,"OK",6]

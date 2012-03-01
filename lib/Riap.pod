@@ -188,8 +188,7 @@ enveloped with a 200 status):
   }
  ]
 
-Server may add additional information keys. Transport specification like
-L<Riap::TCP> or L<Riap::HTTP> might require additional keys.
+Server may add additional information keys.
 
 =head2 Action: B<actions>
 
