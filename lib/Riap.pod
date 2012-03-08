@@ -249,19 +249,19 @@ B<description>, etc.
 Example, a C<list> action on the top namespace C</> might return the following:
 
  [200,"OK",
-  ["pm:///Math","pm:///Utils"]
+  ["pm:/Math","pm:/Utils"]
  ]
 
-Another example, a C<list> action on the C<pm:///Math> namespace, with C<type>
+Another example, a C<list> action on the C<pm:/Math> namespace, with C<type>
 set to C<function> and C<q> to C<multiply>, and C<detail> set to true:
 
  [200,"OK",
   [
-   {"uri": "pm:///Math/multiply2",
+   {"uri": "pm:/Math/multiply2",
     "type": "function",
     "summary": "Multiply two numbers"},
 
-   {"uri": "pm:///Math/multmany",
+   {"uri": "pm:/Math/multmany",
     "type": "function",
     "summary": "Multiply several numbers"}
   ]
@@ -279,8 +279,8 @@ following:
 
  [200,"OK",
   {
-   "pm:///Math":  {"v":1.1, "summary":"This is metadata for Math"},
-  ,"pm:///Utils": {"v":1.1, "summary":"This is metadata for Utils"}
+   "pm:/Math":  {"v":1.1, "summary":"This is metadata for Math"},
+  ,"pm:/Utils": {"v":1.1, "summary":"This is metadata for Utils"}
   }
  ]
 
