@@ -1,8 +1,13 @@
 Revision history for Riap
 
+1.1.9	 2012-03-08
+
+         + Add new action for variable: get
+
+
 1.1.8	 2012-03-01
 
-         + Add new action: child_metas
+         + Add new action for package: child_metas
 
          + HTTP: Add new action: srvinfo
 
