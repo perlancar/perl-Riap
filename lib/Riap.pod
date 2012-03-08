@@ -335,6 +335,15 @@ When there is no completion, the server should return an empty list:
  ]
 
 
+=head1 ACTIONS FOR C<variable> ENTITIES
+
+Below are actions that are available for the C<variable> entities.
+
+=head2 Action: B<get>
+
+Get variable value.
+
+
 =head1 FAQ
 
 =head2 Why no actions to modify metadata/code entities?
