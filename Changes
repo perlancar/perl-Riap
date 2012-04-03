@@ -1,5 +1,11 @@
 Revision history for Riap
 
+1.1.11	 2012-04-03
+
+         + (REMOVED) Remove mention of 'riap+http' and 'riap+https' as they are
+           useless. Use 'http' and 'https'.
+
+
 1.1.10	 2012-04-03
 
          + (Change, or rather define, as it has not been specified formally)
