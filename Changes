@@ -1,5 +1,11 @@
 Revision history for Riap
 
+1.1.10	 2012-04-03
+
+         + (Change, or rather define, as it has not been specified formally)
+           'pm' URI scheme to (or, as) 'pl'.
+
+
 1.1.9	 2012-03-08
 
          + Add new action for variable: get
