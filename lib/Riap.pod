@@ -74,20 +74,16 @@ sent, or keys contain invalid values.
 =back
 
 
-=head1 RIAP URI SCHEME
+=head1 RIAP URI SCHEMES
 
-To refer to code entities, a new URI scheme C<riap> is defined. URI scheme can
-be suffixed with transport, e.g. C<riap+tcp> for Riap over direct TCP (see
-L<Riap::TCP>) or C<riap+http>/C<riap+https> for Riap over HTTP/HTTPS (see
-L<Riap::HTTP>).
+To refer to code entities on the Riap server, a new URI scheme C<riap> is
+defined. The URI path describes path to code entities while the URI host
+describes the host language. Examples:
 
-Without transport, the host part of URI can be used to refer to host language.
-For example:
-
- # refer to Text::sprintfn module
+ # refer to Text::sprintfn Perl module
  riap://perl/Text/sprintfn/
 
- # refer to sprintf function in Text::sprintfn
+ # refer to sprintf function in Text::sprintfn Perl module
  riap://perl/Text/sprintfn/sprintfn
 
  # refer to PHP variable
@@ -99,21 +95,35 @@ For example:
  # UNDECIDED: refer to distribution metadata
  riap://perl/My/Dist/:distribution
 
-Scheme/host and parts of path are optional if you refer from the same host
-language or module. Examples:
+There are some other schemes recognized.
 
- # refer to Text::sprintfn module from another Perl module
- /Text/sprintfn/
+B<pl>. The C<pl> hostless scheme refers to code entities in Perl. This is
+preferred in many L<Perinci> modules because the C<riap> scheme is more verbose.
+Examples:
 
- # refer to Text::Wrap module from Text::sprintfn
- ../Wrap/
+ # refer to Text::sprintfn Perl module
+ pl:/Text/sprintfn/
 
-If transport is used, host (and port) means network host (and port) as usual:
+ # refer to sprintf function in Text::sprintfn Perl module
+ pl:/Text/sprintfn/sprintfn
 
- riap+tcp://localhost:7001/Foo/bar
- riap+http://gudangapi.com/tax/id/npwp/validate_npwp
+B<riap+tcp>. This scheme is for Riap over direct TCP (see L<Riap::TCP>). The
+host (+port) part describes TCP host (+port), and the path part describes path
+to code entity. Currently there is no default port so please always specify port
+number. Examples:
 
-Lest there is confusion, with Riap over HTTP/HTTPS there is also the
+ riap+tcp://localhost:5000/Text/sprintfn/
+ riap+tcp://localhost:5000/Text/sprintfn/sprintfn
+
+B<riap+http>/B<riap+https>. These schemes are for Riap over HTTP/HTTPS (see
+L<Riap::HTTP>). The host (+port) part describes HTTP or HTTPS host (+port), and
+the path part describes path to code entity. The default port is that of HTTP or
+HTTPS. Examples:
+
+ riap+http://gudangapi.com:5000/tax/id/npwp/validate_npwp
+ riap+https://gudangapi.com/tax/id/npwp/validate_npwp
+
+Lest there is confusion, with Riap over HTTP/HTTPS there is also the "plain"
 C<http>/C<https> URLs to access the services. The URI path for these do not
 necessarily map directly to code entities like in C<riap> URIs, they may also
 support additional features, as each service provider can choose custom URL
@@ -249,19 +259,19 @@ B<description>, etc.
 Example, a C<list> action on the top namespace C</> might return the following:
 
  [200,"OK",
-  ["pm:/Math","pm:/Utils"]
+  ["pl:/Math","pl:/Utils"]
  ]
 
-Another example, a C<list> action on the C<pm:/Math> namespace, with C<type>
+Another example, a C<list> action on the C<pl:/Math> namespace, with C<type>
 set to C<function> and C<q> to C<multiply>, and C<detail> set to true:
 
  [200,"OK",
   [
-   {"uri": "pm:/Math/multiply2",
+   {"uri": "pl:/Math/multiply2",
     "type": "function",
     "summary": "Multiply two numbers"},
 
-   {"uri": "pm:/Math/multmany",
+   {"uri": "pl:/Math/multmany",
     "type": "function",
     "summary": "Multiply several numbers"}
   ]
@@ -279,8 +289,8 @@ following:
 
  [200,"OK",
   {
-   "pm:/Math":  {"v":1.1, "summary":"This is metadata for Math"},
-  ,"pm:/Utils": {"v":1.1, "summary":"This is metadata for Utils"}
+   "pl:/Math":  {"v":1.1, "summary":"This is metadata for Math"},
+  ,"pl:/Utils": {"v":1.1, "summary":"This is metadata for Utils"}
   }
  ]
 
