@@ -32,7 +32,7 @@ Rinci access protocol (Riap for short), is a client/server, request/response
 protocol for requesting metadata and performing actions on code entities. It is
 modeled closely after HTTP, but is a different protocol. It can be layered on
 top of HTTP (as its transport protocol) but can also use other transports,
-including direct TCP. L<Riap::HTTP> explains how Riap can be used over HTTP.
+including direct TCP.
 
 The server side is viewed as being a tree of code entities, with a package
 entity at the root. Other entities (such as subpackages, functions, variables)
@@ -115,19 +115,13 @@ number. Examples:
  riap+tcp://localhost:5000/Text/sprintfn/
  riap+tcp://localhost:5000/Text/sprintfn/sprintfn
 
-B<riap+http>/B<riap+https>. These schemes are for Riap over HTTP/HTTPS (see
-L<Riap::HTTP>). The host (+port) part describes HTTP or HTTPS host (+port), and
-the path part describes path to code entity. The default port is that of HTTP or
-HTTPS. Examples:
 
- riap+http://gudangapi.com:5000/tax/id/npwp/validate_npwp
- riap+https://gudangapi.com/tax/id/npwp/validate_npwp
+=head1 RIAP OVER HTTP/HTTPS
 
-Lest there is confusion, with Riap over HTTP/HTTPS there is also the "plain"
-C<http>/C<https> URLs to access the services. The URI path for these do not
-necessarily map directly to code entities like in C<riap> URIs, they may also
-support additional features, as each service provider can choose custom URL
-layout. Example:
+For Riap over HTTP/HTTPS as the transport layer, the standard URI scheme
+B<http>/B<https> is used. The URI path for these do not necessarily map directly
+to code entities like in C<riap> or C<pl> URIs, they may also support additional
+features, as each service provider can choose custom URL layout. Example:
 
  # access tax::id::validate_npwp function, call with arguments
  http://gudangapi.com/ga/tax.id.npwp/validate_npwp?npwp=123456
@@ -136,6 +130,9 @@ layout. Example:
  # can also be specified by position
  http://gudangapi.com/ga/validate_npwp/123456
 
+However, any Riap request and any code entity URI can still be requested from
+any http/https URL following the Riap::HTTP protocol. See B<Riap::HTTP> for more
+details.
 
 =head1 THE REQUEST
 
