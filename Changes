@@ -1,5 +1,11 @@
 Revision history for Riap
 
+1.1.12	 2012-05-03
+
+         + (NEW) Riap::Transaction, specification for doing transaction and undo
+           over Riap.
+
+
 1.1.11	 2012-04-03
 
          + (REMOVED) Remove mention of 'riap+http' and 'riap+https' as they are
