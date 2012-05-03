@@ -1,0 +1,220 @@
+package Riap::Transaction; # just to make PodWeaver happy
+
+# VERSION
+
+1;
+# ABSTRACT: Transactions over Riap
+
+=head1 SPECIFICATION VERSION
+
+ 1.1
+
+
+=head1 ABSTRACT
+
+This document specifies doing transactions/undo over Riap.
+
+
+=head1 DESCRIPTION
+
+This documentation specifies a set of Riap actions and other conventions to do
+transaction/undo over Riap.
+
+Transaction/undo management is done on the server side. There should be a
+transaction/undo manager which records transactions, intercepts undo data from
+function result and and saves them to a stable storage, perform
+begin/undo/commit/rollback.
+
+B<About transactions>. Server can choose to limit duration of transaction.
+Transactions which is in progress for too long (not commited or rolled back) can
+be automatically rolled back and then become unknown. Server can maintain a
+global (server-wide) transaction list, or a per-user one.
+
+A transaction begins when client issues C<begin> request. Initially transaction
+status is B<in progress>. When an action fails, transaction status will be
+B<aborted> and eventually will be B<rolled back>. If all actions succeed and
+C<commit> also succeeds, status of transaction will be B<committed>.
+
+Rolled back transaction can be forgotten/deleted immediately from the server.
+Committed transactions should still be remembered to allow undo. Server can set
+a global/per-user limit for the number of remembered committed transactions. A
+forgotten committed transaction can no longer be undone.
+
+
+=head2 Action: begin
+
+Additional required Riap request keys: none.
+
+Optional request keys: C<summary> (str, to give summary about this transaction).
+
+This action is used when client wants to start a new transaction on the server.
+Initial status of the transaction should be B<in progress>. Upon success, server
+must return status 200 with a unique transaction ID (C<tx_id>) as the result.
+C<tx_id> should preferably be something like UUID or longer to prevent easy
+enumeration or guess by the client. If another transaction is already in
+progress for the client, server must return 304 with the same transaction ID.
+
+Server can return one of these error statuses upon failure: 412 (there are
+already too much transactions being started, either globally on the server or
+for the particular client), 507 (insufficient disk space), or 500 (general
+server-side error).
+
+C<tx_id> should be passed as a Riap request key to every C<call> request or any
+one of transaction-management action described on this list. Only C<call>
+requests to functions that have C<undo> or C<reverse> properties can be included
+in the transaction. If C<tx_id> is specified in a request that does not qualify
+to be included in transaction, server must return status 431 (transaction not
+supported for this request) and the transaction is unaffected.
+
+Unknown C<tx_id> should result in 434 (no such transaction) status.
+
+When a transaction is in progress, each undo data returned by successful
+function call should be intercepted and recorded to a stable storage by the
+transaction/undo manager on the server, so the client does not receive it. This
+is for security reason, since undo data might contain sensitive information. For
+example:
+
+ # Riap request
+ {"action":"call", "uri":"/Pkg/foo", "tx_id":"TX1", "args":{"a":1,"b":2}}
+
+ # Tx/undo manager should call function. if function is reversible, only
+ $res = Pkg::foo(a=>1, b=>2, -undo_action=>"do");
+
+ # successful function result
+ [200, "OK", null, {"undo_data":blah}]
+
+ # Riap response sent to client (undo_* result metadata keys is stored and are
+ # stripped before being sent to client)
+ [200, "OK", null, {}]
+
+Failed function call (4xx and 5xx responses) or failure in recording undo data
+(status 532) will cause the transaction status to be set to B<aborted>. An
+aborted transaction will cause all subsequent requests for this transaction to
+be ignored, until transaction is rolled back (either manually or automatically
+by the server). Before rollback occurs, server must return 432 (transaction
+aborted) as response for each request. A C<commit> request should also be
+interpreted as a rollback in this situation.
+
+Other possible error statuses: 433 (transaction is already committed, no further
+data is allowed).
+
+Riap requests which does not incorporate C<tx_id> key should not be affected by
+transaction management.
+
+
+=head2 Action: B<commit>
+
+Additional required Riap request keys: C<tx_id>.
+
+This action commits the transaction. Server must return 200 upon success.
+
+Server can return one of these statuses upon failure: 434 (no such transaction),
+532 (failure in committing).
+
+Upon failure of this request, transaction status is set to aborted.
+
+
+=head2 Action: B<savepoint>
+
+Additional required Riap request keys: C<tx_id>, C<tx_spid> (an arbitrary string
+up to 64 characters)
+
+Define a savepoint. Transaction can be rolled back to a certain savepoint.
+
+Defining savepoint with the same name as previously defined one will cause
+
+Server may impose the number of subtransactions in a transaction.
+
+Possible error statuses: 432, 433, 532, 500.
+
+Upon failure of this request, transaction status is set to aborted.
+
+
+=head2 Action: B<rollback>
+
+Additional required Riap request keys: C<tx_id>
+
+Optional Riap request keys: C<tx_spid>
+
+Rollback the transaction, or (if C<tx_spid> is specified) rollback to a specific
+savepoint. If savepoint is unknown, transaction will be aborted.
+
+Possible error statuses: 432, 433, 532, 500.
+
+Upon failure of this request, transaction status is set to aborted.
+
+
+=head2 Action: B<release_savepoint>
+
+Additional required Riap request keys: C<tx_id>, C<tx_spid>
+
+Possible error statuses: 432, 434 (no such transaction or savepoint), 532, 500.
+
+Upon failure of this request, transaction status is set to aborted.
+
+
+=head2 Action: B<list_txs>
+
+List client's transactions. Should return an array containing transaction ID's.
+
+Optional request key: C<detail> (bool, default false, is set to true will return
+an array of result records instead), C<status> (str, filter by transaction
+status).
+
+Example:
+
+ # Riap request
+ {"action":"list_txs", "uri":"/", "detail":1}
+
+ # result
+ [200, "OK",
+  [
+   {"tx_id": "TX1", "status":"committed", "start_time":1336043060,
+    "commit_time":1336043065, "summary":"Some summary"},
+   {"tx_id": "TX2", "status":"committed", "start_time":1336043070,
+    "commit_time":1336043071, "summary":null},
+   {"tx_id": "TX3", "status":"in progress", "start_time":1336043090,
+    "commit_time":null, "summary":"Some summary"},
+  ]
+ ]
+
+
+=head2 Action: B<undo>
+
+Optional Riap request keys: C<tx_id>.
+
+Undo a committed transaction (defaults to the newest committed transaction).
+Transaction must already be committed. Will do nothing if transaction is already
+undone.
+
+
+=head2 Action: B<redo>
+
+Optional Riap request keys: C<tx_id>.
+
+Redo a committed transaction (defaults to the newest undone committed
+transaction). Transaction must already be committed . Will do nothing if
+transaction is not undone.
+
+
+=head2 Action: B<discard_tx>
+
+Additional required Riap request keys: C<tx_id>.
+
+Discard a committed transaction from the transaction manager. Transaction must
+be already committed. If transaction is in progress or aborted, it will be
+rolled back.
+
+
+=head2 Action: B<discard_all_txs>
+
+Additional required Riap request keys: none.
+
+Discard all committed transactions.
+
+
+=head1 SEE ALSO
+
+L<Riap>
+
+=cut
