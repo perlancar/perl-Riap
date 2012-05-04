@@ -63,8 +63,8 @@ C<tx_id> should be passed as a Riap request key to every C<call> request or any
 one of transaction-management action described on this list. Only C<call>
 requests to functions that have C<undo> or C<reverse> properties can be included
 in the transaction. If C<tx_id> is specified in a request that does not qualify
-to be included in transaction, server must return status 431 (transaction not
-supported for this request) and the transaction is unaffected.
+to be included in transaction, server must return status 431 (cannot use
+transaction for this request) and the transaction is unaffected.
 
 Unknown C<tx_id> should result in 434 (no such transaction) status.
 
@@ -95,7 +95,7 @@ by the server). Before rollback occurs, server must return 432 (transaction
 aborted) as response for each request. A C<commit> request should also be
 interpreted as a rollback in this situation.
 
-Other possible error statuses: 433 (transaction is already committed, no further
+Other possible error statuses: 432 (transaction is already committed, no further
 data is allowed).
 
 Riap requests which does not incorporate C<tx_id> key should not be affected by
@@ -170,11 +170,11 @@ Example:
  [200, "OK",
   [
    {"tx_id": "TX1", "status":"committed", "start_time":1336043060,
-    "commit_time":1336043065, "summary":"Some summary"},
+    "finish_time":1336043065, "summary":"Some summary"},
    {"tx_id": "TX2", "status":"committed", "start_time":1336043070,
-    "commit_time":1336043071, "summary":null},
+    "finish_time":1336043071, "summary":null},
    {"tx_id": "TX3", "status":"in progress", "start_time":1336043090,
-    "commit_time":null, "summary":"Some summary"},
+    "finish_time":null, "summary":"Some summary"},
   ]
  ]
 
