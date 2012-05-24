@@ -220,4 +220,6 @@ Discard all committed transactions.
 
 L<Riap>
 
+Transaction behavior is modelled after that of Postgres.
+
 =cut
