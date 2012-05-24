@@ -63,8 +63,11 @@ C<tx_id> should be passed as a Riap request key to every C<call> request or any
 one of transaction-management action described on this list. Only C<call>
 requests to functions that have C<undo> or C<reverse> properties can be included
 in the transaction. If C<tx_id> is specified in a request that does not qualify
-to be included in transaction, server must return status 431 (cannot use
-transaction for this request) and the transaction is unaffected.
+to be included in transaction, this qualifies as an error condition and the
+server must return status 431 (cannot use transaction for this request) and the
+transaction status becomes aborted. It is the client's responsibility to do
+C<call> requests to appropriate functions (e.g. by requesting C<meta> first to
+make sure function supports undo/reverse).
 
 Unknown C<tx_id> should result in 434 (no such transaction) status.
 
