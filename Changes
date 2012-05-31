@@ -1,5 +1,15 @@
 Revision history for Riap
 
+1.1.13	 2012-05-31
+
+         + Some revision and incompatible changes to Riap::Transaction
+           specification: rename requests (begin -> begin_tx, commit ->
+           commit_tx, and so on), tweak some status codes, mention status E
+           (prepared).
+
+         + Now requires Rinci 1.1.17.
+
+
 1.1.12	 2012-05-03
 
          + (NEW) Riap::Transaction, specification for doing transaction and undo
