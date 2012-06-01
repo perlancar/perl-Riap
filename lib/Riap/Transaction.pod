@@ -261,10 +261,6 @@ Additional required Riap request keys: none.
 Discard all committed transactions for this client.
 
 
-=head1 FAQ
-
-
-
 =head1 SEE ALSO
 
 L<Riap>
