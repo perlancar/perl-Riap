@@ -131,8 +131,7 @@ features, as each service provider can choose custom URL layout. Example:
  http://gudangapi.com/ga/validate_npwp/123456
 
 However, any Riap request and any code entity URI can still be requested from
-any http/https URL following the Riap::HTTP protocol. See B<Riap::HTTP> for more
-details.
+any http/https URL following the L<Riap::HTTP> protocol..
 
 =head1 THE REQUEST
 
