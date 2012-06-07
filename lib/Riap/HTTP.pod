@@ -86,7 +86,7 @@ The server MUST not interpret C<application/x-www-form-urlencoded> for this
 purpose (and interpret it as a normal web form). Server MUST return response 400
 if document type is not recognized.
 
-The server can also accept Rinci request keys or function arguments using other
+The server can also accept Riap request keys or function arguments using other
 means. For example, L<Plack::Middleware::PeriAHS::ParseRequest>, from Perl
 server implementation, allows parsing Riap request keys like C<uri> from URI
 path, and C<args> keys (as well as other Riap request keys, using C<-riap-*>
@@ -106,7 +106,7 @@ Another example:
 
  http://HOST/api/PKG/FUN?-riap-action=complete_arg_val&-riap-arg=a1&-riap-word=x
 
-will result in the following Rinci request:
+will result in the following Riap request:
 
  {
   "uri": '/PKG/FUN',
