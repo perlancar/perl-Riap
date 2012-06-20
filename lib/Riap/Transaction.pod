@@ -206,7 +206,7 @@ Additional required Riap request keys: C<tx_id>
 List client's transactions. Should return an array containing transaction ID's.
 
 Optional request key: C<detail> (bool, default false, is set to true will return
-an array of result records instead), C<status> (str, filter by transaction
+an array of result records instead), C<tx_status> (str, filter by transaction
 status).
 
 Example:
@@ -217,12 +217,12 @@ Example:
  # result
  [200, "OK",
   [
-   {"tx_id": "TX1", "status":"committed", "start_time":1336043060,
-    "finish_time":1336043065, "summary":"Some summary"},
-   {"tx_id": "TX2", "status":"committed", "start_time":1336043070,
-    "finish_time":1336043071, "summary":null},
-   {"tx_id": "TX3", "status":"in progress", "start_time":1336043090,
-    "finish_time":null, "summary":"Some summary"},
+   {"tx_id": "TX1", "tx_status":"C", "tx_start_time":1336043060,
+    "tx_end_time":1336043065, "tx_summary":"Some summary"},
+   {"tx_id": "TX2", "tx_status":"C", "tx_start_time":1336043070,
+    "tx_end_time":1336043071, "tx_summary":null},
+   {"tx_id": "TX3", "tx_status":"I", "tx_start_time":1336043090,
+    "tx_end_time":null, "tx_summary":"Some summary"},
   ]
  ]
 
