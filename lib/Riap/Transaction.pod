@@ -231,8 +231,7 @@ Example:
 Optional Riap request keys: C<tx_id>.
 
 Undo a committed transaction (defaults to the newest committed transaction).
-Transaction must already be committed. Will do nothing if transaction is already
-undone.
+Transaction must already be committed.
 
 
 =head2 Action: B<redo>
@@ -240,8 +239,7 @@ undone.
 Optional Riap request keys: C<tx_id>.
 
 Redo a committed transaction (defaults to the newest undone committed
-transaction). Transaction must already be committed . Will do nothing if
-transaction is not undone.
+transaction). Transaction must already be committed.
 
 
 =head2 Action: B<discard_tx>
@@ -249,8 +247,7 @@ transaction is not undone.
 Additional required Riap request keys: C<tx_id>.
 
 Discard a committed transaction from the transaction manager. Transaction must
-be already committed. If transaction is in progress or aborted, it will be
-rolled back.
+be already committed or committed+undone.
 
 
 =head2 Action: B<discard_all_txs>
