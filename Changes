@@ -1,5 +1,14 @@
 Revision history for Riap
 
+1.1.14	 2012-06-22
+
+         + Some small changes, mainly transaction status labels (final statuses
+           are in uppercase: C, R, U, X; while transient statuses are in
+           lowercase: i, a, u, d, e).
+
+         + Now requires Rinci 1.1.19.
+
+
 1.1.13	 2012-05-31
 
          + Some revision and incompatible changes to Riap::Transaction
