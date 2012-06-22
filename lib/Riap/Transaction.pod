@@ -33,14 +33,13 @@ back and then become unknown. Server can maintain a global (server-wide)
 transaction list, or a per-user one.
 
 A transaction begins when client issues C<begin_tx> request. Initially
-transaction status is B<I> (B<In progress>). When an action fails, transaction
-status will be B<A> (B<Aborted>) and eventually will be B<R> (B<Rolled back>).
+transaction status is B<i> (B<In progress>). When an action fails, transaction
+status will be B<a> (B<Aborted>) and eventually will be B<R> (B<Rolled back>).
 If all actions succeed and C<commit_tx> request also succeeds, status of
 transaction will be B<C> (B<Committed>).
 
-There is also a transaction status of B<E> (B<prEpared>) when dealing with
-two-phase commit. (Note: the letter "P" is avoided because it is ambiguous
-between Prepared and in-Progress).
+There is also a transaction status of B<e> (B<prEpared>) when dealing with
+two-phase commit.
 
 Rolled back transaction can be forgotten/deleted immediately from the server.
 Undo journal of committed transactions should still be remembered for a certain
@@ -221,7 +220,7 @@ Example:
     "tx_end_time":1336043065, "tx_summary":"Some summary"},
    {"tx_id": "TX2", "tx_status":"C", "tx_start_time":1336043070,
     "tx_end_time":1336043071, "tx_summary":null},
-   {"tx_id": "TX3", "tx_status":"I", "tx_start_time":1336043090,
+   {"tx_id": "TX3", "tx_status":"i", "tx_start_time":1336043090,
     "tx_end_time":null, "tx_summary":"Some summary"},
   ]
  ]
