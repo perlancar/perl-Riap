@@ -217,11 +217,11 @@ Example:
  [200, "OK",
   [
    {"tx_id": "TX1", "tx_status":"C", "tx_start_time":1336043060,
-    "tx_end_time":1336043065, "tx_summary":"Some summary"},
+    "tx_commit_time":1336043065, "tx_summary":"Some summary"},
    {"tx_id": "TX2", "tx_status":"C", "tx_start_time":1336043070,
-    "tx_end_time":1336043071, "tx_summary":null},
+    "tx_commit_time":1336043071, "tx_summary":null},
    {"tx_id": "TX3", "tx_status":"i", "tx_start_time":1336043090,
-    "tx_end_time":null, "tx_summary":"Some summary"},
+    "tx_commit_time":null, "tx_summary":"Some summary"},
   ]
  ]
 
