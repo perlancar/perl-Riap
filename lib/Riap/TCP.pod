@@ -23,12 +23,23 @@ logging messages). It is suitable for localhost/localnet communication (e.g.
 between processes of different languages). For public-facing service, Riap::HTTP
 is more recommended.
 
+=head2 Request
+
 B<Client> first sends a request line of the following format:
 
  "J" <size> <CRLF>
 
 That is, the letter C<J> (for JSON) and size of subsequent request body in
 bytes. Client then sends the Riap request in JSON, followed by CRLF.
+
+Alternatively, client can also send the whole request in a single line, for
+shorter requests:
+
+ "j" <JSON> <CRLF>
+
+That is, the letter C<j> followed by JSON data, followed by CRLF.
+
+=head2 Response
 
 B<Server> replies by first sending a similar line:
 
@@ -59,6 +70,10 @@ Below are some examples of what is sent and received on the wire.
  {"action":"call","uri":"/Math/mult","args":{"a":2,"b":3}}
  J12
  [200,"OK",6]
+
+ j{"action":"call","uri":"/Math/mult","args":{"a":2,"b":4}}
+ J12
+ [200,"OK",8]
 
  J44
  {"v":1.1,"action":"info","uri":"/Math/mult"}
