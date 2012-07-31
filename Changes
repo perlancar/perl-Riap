@@ -1,5 +1,13 @@
 Revision history for Riap
 
+1.1.16	 2012-07-31 (SHARYANTO)
+
+         + Rename Riap::TCP to Riap::Simple.
+
+         + Introduce schemes: riap+unix (previously mixed together with
+           riap+tcp), riap+pipe.
+
+
 1.1.15	 2012-07-19 (SHARYANTO)
 
          + Riap::TCP: Allow single-line request using j<JSON><CRLF>
