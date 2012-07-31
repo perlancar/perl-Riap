@@ -1,9 +1,9 @@
-package Riap::TCP; # just to make PodWeaver happy
+package Riap::Simple; # just to make PodWeaver happy
 
 # VERSION
 
 1;
-# ABSTRACT: Riap over TCP
+# ABSTRACT: Simple Riap protocol over any stream socket
 
 =head1 PROTOCOL VERSION
 
@@ -12,16 +12,18 @@ package Riap::TCP; # just to make PodWeaver happy
 
 =head1 ABSTRACT
 
-This document specifies using L<Riap> directly over TCP, or Riap::TCP for short.
+This document specifies a simple L<Riap> protocol over any stream socket like
+TCP, Unix, or piping to program.
 
 
 =head1 DESCRIPTION
 
-Riap::TCP is a simpler alternative to L<Riap::HTTP>. It supports less features
-(currently only supports JSON, no encryption, no authentication, no sending of
-logging messages). It is suitable for localhost/localnet communication (e.g.
-between processes of different languages). For public-facing service, Riap::HTTP
-is more recommended.
+Riap::Simple is a simpler alternative to L<Riap::HTTP>. It supports less
+features (currently only supports sending/receiving Riap request and response in
+JSON encoding, no encryption, no authentication, no sending of logging
+messages). It is suitable for localhost/localnet communication (e.g. between
+processes of different languages). For public-facing service, Riap::HTTP is more
+recommended.
 
 =head2 Request
 
@@ -29,15 +31,15 @@ B<Client> first sends a request line of the following format:
 
  "J" <size> <CRLF>
 
-That is, the letter C<J> (for JSON) and size of subsequent request body in
-bytes. Client then sends the Riap request in JSON, followed by CRLF.
+That is, the uppercase letter C<J> (for JSON) and size of subsequent request
+body in bytes. Client then sends the Riap request in JSON, followed by CRLF.
 
 Alternatively, client can also send the whole request in a single line, for
 shorter requests:
 
  "j" <JSON> <CRLF>
 
-That is, the letter C<j> followed by JSON data, followed by CRLF.
+That is, the lowercase letter C<j> followed by JSON data, followed by CRLF.
 
 =head2 Response
 
@@ -86,6 +88,6 @@ Below are some examples of what is sent and received on the wire.
 
 =head1 SEE ALSO
 
-L<Riap>, L<Riap::TCP>
+L<Riap>, L<Riap::HTTP>
 
 =cut

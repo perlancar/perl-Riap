@@ -21,7 +21,7 @@ Riap::HTTP for short.
 Riap::HTTP is designed to be implemented by API service providers. It allows
 features like custom URL layout, multiple serialization format, and logging;
 while depends on HTTP for other features like authentication, encryption
-(HTTPS), etc. For a more lightweight alternative, look at L<Riap::TCP>.
+(HTTPS), etc. For a more lightweight alternative, look at L<Riap::Simple>.
 
 Server listens to HTTP requests, parses them into Riap requests, executes the
 Riap requests, and sends the results to clients.
@@ -220,6 +220,6 @@ L<Serabi> in Perl.
 
 =head1 SEE ALSO
 
-L<Riap::TCP>
+L<Riap::Simple>
 
 =cut

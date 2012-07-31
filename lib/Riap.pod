@@ -107,13 +107,27 @@ Examples:
  # refer to sprintf function in Text::sprintfn Perl module
  pl:/Text/sprintfn/sprintfn
 
-B<riap+tcp>. This scheme is for Riap over direct TCP (see L<Riap::TCP>). The
-host (+port) part describes TCP host (+port), and the path part describes path
-to code entity. Currently there is no default port so please always specify port
+B<riap+tcp>. This scheme is for L<Riap::Simple> over TCP socket. The host
+(+port) part describes TCP host (+port), and the path part describes path to
+code entity. Currently there is no default port so please always specify port
 number. Examples:
 
  riap+tcp://localhost:5000/Text/sprintfn/
  riap+tcp://localhost:5000/Text/sprintfn/sprintfn
+
+B<riap+unix>. This scheme is for Riap::Simple over Unix socket. There is no host
+part (Unix socket is localhost-only). The path part describes path to the socket
+and path to code entity (separated by C<//>).
+
+ riap+unix:/path/to/unix/socket
+ riap+unix:/path/to/unix/socket//Text/sprintfn/sprintfn
+
+B<riap+pipe>. This scheme is for Riap::Simple over pipe, to refer to starting a
+program and talking the protocol over the pipe. There is no host (for now). The
+path part describes path to program and path to code entity (separated to
+C<//>).
+
+ riap+pipe:/path/to/program//Text/sprintfn/sprintfn
 
 
 =head1 RIAP OVER HTTP/HTTPS
