@@ -123,11 +123,15 @@ and path to code entity (separated by C<//>).
  riap+unix:/path/to/unix/socket//Text/sprintfn/sprintfn
 
 B<riap+pipe>. This scheme is for Riap::Simple over pipe, to refer to starting a
-program and talking the protocol over the pipe. There is no host (for now). The
-path part describes path to program and path to code entity (separated to
-C<//>).
+program and talking the protocol over the pipe. There is no host. The path part
+describes path to program, C<//> separator, arguments separated by C</>,
+C<//separator>, and path to code entity.
 
- riap+pipe:/path/to/program//Text/sprintfn/sprintfn
+ # refer to accessing code entity via executing "/path/to/program"
+ riap+pipe:/path/to/program////Text/sprintfn/sprintfn
+
+ # refer to via accessing code entity via executing "/path/to/program arg1 arg2"
+ riap+pipe:/path/to/program//arg1/arg2//Text/sprintfn/sprintfn
 
 
 =head1 RIAP OVER HTTP/HTTPS
