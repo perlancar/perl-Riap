@@ -48,7 +48,7 @@ number of remembered committed transactions. A forgotten committed transaction
 can no longer be undone.
 
 
-=head2 Action: begin_tx
+=head2 Action: B<begin_tx>
 
 Additional Riap request keys: C<tx_id> (str, required, must be less than 200
 characters to identify this transaction and to refer in future Riap requests; ID
@@ -128,7 +128,7 @@ Riap requests which does not incorporate C<tx_id> key should not be affected by
 transaction management.
 
 
-=head2 Action: commit_tx
+=head2 Action: C<commit_tx>
 
 Additional required Riap request keys: C<tx_id>.
 
