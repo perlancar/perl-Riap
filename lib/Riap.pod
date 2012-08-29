@@ -329,6 +329,10 @@ Call a function and return its result. Additional request keys include:
 
 Hash, optional, function arguments, defaults to C<{}>.
 
+In general, do not pass special arguments (arguments prefixed by dash C<->) as
+they might be stripped/removed prior to processing. Some special arguments can
+be passed through other means (e.g. see C<confirm> and C<dry_run> below).
+
 =item * B<confirm> => BOOL
 
 Optional. If set to true, will pass special argument C<< -confirm => 1 >> to
