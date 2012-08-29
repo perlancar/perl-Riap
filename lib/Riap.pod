@@ -329,6 +329,18 @@ Call a function and return its result. Additional request keys include:
 
 Hash, optional, function arguments, defaults to C<{}>.
 
+=item * B<confirm> => BOOL
+
+Optional. If set to true, will pass special argument C<< -confirm => 1 >> to
+function. This is used as confirmation when function can return status 331
+(requires confirmation). See L<Rinci::function> for more details on status 331.
+
+=item * B<dry_run> => BOOL
+
+Optional. If set to true, will either pass C<< -dry_run => 1 >> to function
+supporting dry run, or C<< -tx_action => 'check_state' >> to function supporting
+transaction (can more or less be regarded as the dry run equivalent).
+
 =back
 
 =head2 Action: B<complete_arg_val>
