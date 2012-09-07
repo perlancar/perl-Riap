@@ -41,6 +41,11 @@ metadata can be retrieved using the C<meta> action. There are other actions
 defined in the specification; and the protocol can be extended by introducing
 more actions.
 
+One of the main use-cases of this protocol is to provide self-descriptive,
+self-documenting, machine-discoverable API service, much like the goal of SOAP
+and WSDL. However it is much simpler and programmer-friendly than those
+protocols.
+
 
 =head1 TERMINOLOGIES
 
