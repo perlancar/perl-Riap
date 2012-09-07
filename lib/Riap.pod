@@ -439,6 +439,9 @@ First release of L<Sub::Spec::HTTP::Server>.
 
 L<Rinci>
 
+SPORE,
+L<https://github.com/SPORE/specifications/blob/master/spore_description.pod>.
+
 B<SOAP, WSDL>. Popular in the early 2000's, with similar goals (easier service
 discovery, "simple" request/response protocol which can utilize HTTP or other
 transport layer). Fell out of favor along with the rise of JavaScript and REST
