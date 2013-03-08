@@ -10,7 +10,7 @@ package Riap::HTTP; # just to make PodWeaver happy
  1.1
 
 
-=head1 ABSTRACT
+=head1 SYNOPSIS
 
 This document specifies using HTTP/HTTPS as the transport layer for L<Riap>, or
 Riap::HTTP for short.

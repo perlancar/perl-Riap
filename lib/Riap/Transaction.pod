@@ -10,7 +10,7 @@ package Riap::Transaction; # just to make PodWeaver happy
  1.1
 
 
-=head1 ABSTRACT
+=head1 SYNOPSIS
 
 This document specifies doing transactions/undo/redo over Riap.
 

@@ -10,7 +10,7 @@ package Riap; # just to make PodWeaver happy
  1.1
 
 
-=head1 ABSTRACT
+=head1 SYNOPSIS
 
 This document specifies a simple, extensible, client/server, request/response
 protocol for requesting metadata and performing actions on code entities.

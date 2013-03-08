@@ -10,7 +10,7 @@ package Riap::Simple; # just to make PodWeaver happy
  1.1
 
 
-=head1 ABSTRACT
+=head1 SYNOPSIS
 
 This document specifies a simple L<Riap> protocol over any stream socket like
 TCP, Unix, or piping to program.
