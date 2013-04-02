@@ -39,7 +39,8 @@ shorter requests:
 
  "j" <JSON> <CRLF>
 
-That is, the lowercase letter C<j> followed by JSON data, followed by CRLF.
+That is, the lowercase letter C<j> followed by JSON data, followed by CRLF. In
+this format, the JSON data cannot contain newlines.
 
 =head2 Response
 
