@@ -9,9 +9,7 @@ Revision history for Riap
          - Riap: Mention tx_id and link to Riap::Transaction.
 
 
-1.1.18	 2012-08-17 (SHARYANTO)
-
-         "Selamat ulang tahun ke-67, negaraku. Merdeka!"
+1.1.18	 2012-08-17 (SHARYANTO) - "Selamat ulang tahun ke-67, negaraku. Merdeka!"
 
          - Move most details of transaction behavior to Rinci::Transaction
            1.1.24, to avoid duplication.
@@ -109,8 +107,8 @@ Revision history for Riap
 
 1.1.5	 2012-02-15 (SHARYANTO)
 
-         Some fixes (build/deps, examples, 'info' action should contain 'acts')
-         and minor updates.
+         - Some fixes (build/deps, examples, 'info' action should contain
+           'acts') and minor updates.
 
 
 1.1.4	 2012-02-01 (SHARYANTO)
@@ -134,16 +132,16 @@ Revision history for Riap
 
 1.1.2	 2012-01-17 (SHARYANTO)
 
-	 Rename distribution from Rinci-HTTP as Riap.
+	 - Rename distribution from Rinci-HTTP as Riap.
 
 
 1.1.1    2012-01-15 (SHARYANTO)
 
-         No spec changes. Fix misplaced section in POD.
+         - No spec changes. Fix misplaced section in POD.
 
 
 1.1.0    2012-01-15 (SHARYANTO)
 
-         First release. Renamed from Sub::Spec::HTTP. Now follow the Rinci
-         specification instead of Sub::Spec. Generalized to perform actions on
-         any code entities instead of just functions. Change terminologies.
+         - First release. Renamed from Sub::Spec::HTTP. Now follow the Rinci
+           specification instead of Sub::Spec. Generalized to perform actions on
+           any code entities instead of just functions. Change terminologies.
