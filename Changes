@@ -1,5 +1,10 @@
 Revision history for Riap
 
+1.1.20	 2013-11-27 (SHARYANTO)
+
+         - list action: should return relative URIs to be more tree-like.
+
+
 1.1.19	 2012-08-29 (SHARYANTO)
 
          - call action: Specify 'dry_run' and 'confirm'.
