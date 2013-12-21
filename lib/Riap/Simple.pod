@@ -1,9 +1,5 @@
-package Riap::Simple; # just to make PodWeaver happy
-
-# VERSION
-
-1;
 # ABSTRACT: Simple Riap protocol over any stream socket
+# PODNAME: Riap::Simple
 
 =head1 PROTOCOL VERSION
 

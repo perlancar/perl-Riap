@@ -1,9 +1,5 @@
-package Riap; # just to make PodWeaver happy
-
-# VERSION
-
-1;
 # ABSTRACT: Rinci access protocol
+# PODNAME: Riap
 
 =head1 SPECIFICATION VERSION
 
