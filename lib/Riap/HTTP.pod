@@ -112,6 +112,19 @@ will result in the following Riap request:
  }
 
 
+=head1 HTTP RESPONSE
+
+Response status MUST be 200 for success.
+
+There are some HTTP response headers related to Riap::HTTP: C<X-Riap-V> is
+REQUIRED and gives information on the Riap::HTTP protocol version supported by
+the server. C<X-Riap-Logging> is optional and advertises loglevel/marklog server
+support (see L</LOGGING>).
+
+The response body is an enveloped result (as described in L<Rinci::function>)
+encoded in JSON or other format.
+
+
 =head1 LOGGING
 
 Riap over HTTP also allows a mechanism to pass logging messages during function
@@ -162,6 +175,7 @@ because of missing argument:
  HTTP/1.0 200 OK
  Date: Sat, 14 Jan 2012 17:11:40 GMT
  Server: PeriAHS/0.01
+ X-Riap-V: 1.1.21
  Content-Type: application/json
 
  [400,"Missing required argument: b"]
@@ -178,6 +192,7 @@ arguments through the X-Riap-Args HTTP header:
  HTTP/1.0 200 OK
  Date: Sat, 14 Jan 2012 17:11:50 GMT
  Server: PeriAHS/0.01
+ X-Riap-V: 1.1.21
  Content-Type: application/json
 
  [200,"OK",6]
@@ -195,6 +210,7 @@ support logging and send 'unlogged' response.
  --- Response ---
  HTTP/1.1 200 OK
  Server: Gepok/0.24
+ X-Riap-V: 1.1.21
  Content-Type: text/plain
  Date: Sat, 21 Dec 2013 06:18:13 GMT
  Connection: Keep-Alive
