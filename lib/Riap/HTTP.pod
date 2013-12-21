@@ -117,6 +117,10 @@ will result in the following Riap request:
 Riap over HTTP also allows a mechanism to pass logging messages during function
 calls by using HTTP chunked response.
 
+Server can opt NOT to support this feature. Server supporting this feature MUST
+advertise the fact by sending HTTP response header C<X-Riap-Logging> with an
+value of C<enabled> or C<marked> (meaning enabled and marked, see below).
+
 Two additional Riap request keys are recognized for this:
 
 =over 4
@@ -125,15 +129,17 @@ Two additional Riap request keys are recognized for this:
 
 An integer number with value either 0 (for none, the default), 1 (for sending
 fatal messages), 2 (error), 3 (warn), 4 (info), 5 (debug), and 6 (trace). When a
-value larger than 0 specified, server must return chunked HTTP response and each
-log message should be sent as a separate chunk, and the result as the last
-chunk.
+value larger than 0 is specified, server supporting this feature must return
+chunked HTTP response and each log message should be sent as a separate chunk,
+and the result as the last chunk.
 
 =item * B<marklog>
 
-A bool, default to 0. When set to true, server will prepend each log message
-with "L" (and the result with "R"). Only useful/relevant when turning on
-loglevel, so clients can parse/separate log message from result.
+A bool, default to 0. Only useful/relevant when B<loglevel> is turned on. When
+set to true, server supporting this feature must prepend each log message with
+"l" followed by number of bytes of content (e.g. "20") followed by a single
+space character followed by the content (in this example, exactly 20 bytes of
+it). Result is similarly prepended but with "r" instead of "l".
 
 =back
 
@@ -175,6 +181,29 @@ arguments through the X-Riap-Args HTTP header:
  Content-Type: application/json
 
  [200,"OK",6]
+
+Another example demonstrating C<loglevel> and C<marklog>. Note that if server
+does not send C<X-Riap-Logging> response header, it means the server does not
+support logging and send 'unlogged' response.
+
+ --- Request ---
+ GET /Perinci/Examples/call_randlog?-riap-loglevel=6&-riap-marklog=1&n=3 HTTP/1.1
+ User-Agent: curl/7.30.0
+ Host: localhost:5000
+ Accept: */*
+
+ --- Response ---
+ HTTP/1.1 200 OK
+ Server: Gepok/0.24
+ Content-Type: text/plain
+ Date: Sat, 21 Dec 2013 06:18:13 GMT
+ Connection: Keep-Alive
+ Transfer-Encoding: chunked
+ X-Riap-Logging: marked
+
+ l96 [critical][Sat Dec 21 13:18:13 2013] (1/3) This is random log message #1, level=1 (fatal): 2185
+ l93 [trace][Sat Dec 21 13:18:13 2013] (2/3) This is random log message #2, level=6 (trace): 5845
+ l93 [trace][Sat Dec 21 13:18:13 2013] (3/3) This is random log message #3, level=6 (trace): 3479
 
 
 =head1 FAQ
