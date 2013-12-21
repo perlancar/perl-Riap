@@ -1,5 +1,14 @@
 Revision history for Riap
 
+1.1.22	 2013-12-21 (SHARYANTO) (not yet released)
+
+         [INCOMPATIBLE CHANGES]
+
+         - Remove 'marklog' request key, merge it into 'loglevel'. This is
+           because, if separate chunks are not marked, result is mixed with log
+           message(s).
+
+
 1.1.21	 2013-12-21 (SHARYANTO)
 
          - Introduce 'X-Riap-V' (require HTTP response header) to let server
