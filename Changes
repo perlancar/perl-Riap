@@ -1,5 +1,16 @@
 Revision history for Riap
 
+1.1.21	 2013-12-21 (SHARYANTO)
+
+         - Introduce 'X-Riap-V' (require HTTP response header) to let server
+           declare Riap::HTTP protocol version.
+
+         - Allow server to decline 'loglevel' and 'marklog' request, by
+           requiring client to read the value of 'X-Riap-Logging' HTTP response
+           header. The absence of this HTTP header means server does not
+           support it.
+
+
 1.1.20	 2013-11-27 (SHARYANTO)
 
          - list action: should return relative URIs to be more tree-like.
