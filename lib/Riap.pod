@@ -386,6 +386,35 @@ When there is no completion, the server should return an empty list:
   []
  ]
 
+=head2 Action: B<complete_arg_elem>
+
+This is just like C<complete_arg_val>, except this tries to complete the value
+of an element of an array argument, instead of the value of the argument itself.
+This is useful for example when completing this command-line:
+
+ % somecmd --category foo --category <tab>
+
+where C<category> is argument of type array and its element contain some
+restricted value. The command-line option C<--category> can be specified
+multiple times to set the array elements.
+
+=over 4
+
+=item * B<arg>
+
+String, required, the name of function argument to complete.
+
+=item * B<index>
+
+Integer, required, which element to complete for (starts from 0 for the first
+element).
+
+=item * B<word>
+
+String, optional, word that needs to be completed. Defaults to empty string.
+
+=back
+
 
 =head1 ACTIONS FOR C<variable> ENTITIES
 
