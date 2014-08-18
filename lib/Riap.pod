@@ -470,6 +470,18 @@ First release of L<Sub::Spec::HTTP::Server>.
 
 L<Rinci>
 
+JSON RPC, (version 1 at L<http://json-rpc.org>, version 2 at
+L<http://jsonrpc.org>). First developed 2005, major revision to version 2 in
+2009. Similar to Riap in several aspects: 1) request and response are a single
+hash (JSON objects); 2) transport-independent. Differences to Riap: 1) JSON RPC
+has a narrower scope, it only deals with RPC/method calls and the other things
+like metadata access/exchange, etc; 2) JSON RPC is tied to the JSON format,
+while Riap is serialization-format-independent; 3) JSON RPC mandates a request
+ID ("id") on every request, to allow pipelining (i.e. client sends an array of
+requests at once, answers will come potentially out of order). This could be
+added later to the Riap protocol when necessary.
+
+
 SPORE,
 L<https://github.com/SPORE/specifications/blob/master/spore_description.pod>.
 
