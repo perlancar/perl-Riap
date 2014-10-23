@@ -3,7 +3,7 @@
 
 =head1 SPECIFICATION VERSION
 
- 1.1
+ 1.2
 
 
 =head1 SYNOPSIS
@@ -71,7 +71,7 @@ headers, e.g. C<X-Riap-Action> header for setting the C<action> request key. In
 addition, the server MUST parse the C<X-Riap-*-j-> headers for JSON-encoded
 value (notice the ending C<->), e.g.
 
- X-Riap-Args-j-: {"arg1":"val1","arg2":[1,2,3]}
+ X-Riap-Args-j-: {"arg1":"val1","arg2":[1,2,3],"arg3:base64":"AAAA"}
 
 This allows the server to have its own URL scheme, while allowing a way for a
 common access mechanism.
@@ -88,14 +88,15 @@ server implementation, allows parsing Riap request keys like C<uri> from URI
 path, and C<args> keys (as well as other Riap request keys, using C<-riap-*>
 syntax) from request variables. For example:
 
- http://HOST/api/PKG/SUBPKG/FUN?a1=1&a2:j=[1,%202]
+ http://HOST/api/PKG/SUBPKG/FUN?a1=1&a2:j=[1,%202]&a3:base64=AAAA
 
-might result in the following Riap request:
+might result in the following Riap request (note that JSON does not support
+binary data, but below a binary data "\0\0\0" is represented):
 
  {
   "uri": '/PKG/SUBPKG/FUN',
   "action": 'call',
-  "args": {"a1":1, "a2":[1,2]},
+  "args": {"a1":1, "a2":[1,2], "a3":"\0\0\0"}
  }
 
 Another example:
@@ -156,20 +157,20 @@ Call a function, passing function arguments via query parameter, unsuccessfully
 because of missing argument:
 
  --- Request ---
- GET /api/Math/multiply2?a=2 HTTP/1.0
+ GET /api/Math/multiply2?a=2&-riap-v=1.2 HTTP/1.0
  Accept: application/json
 
  --- Response ---
  HTTP/1.0 200 OK
- Date: Sat, 14 Jan 2012 17:11:40 GMT
- Server: PeriAHS/0.01
- X-Riap-V: 1.1.21
+ Date: Thu, 23 Oct 2014 06:02:40 GMT
+ Server: PeriAHS/0.50
+ X-Riap-V: 1.2.0
  Content-Type: application/json
 
- [400,"Missing required argument: b"]
+ [400,"Missing required argument: b",null,{"riap.v":1.2}]
 
-Call the same function, successfully this time. As a variation we pass function
-arguments through the X-Riap-Args HTTP header:
+Call the same function, successfully this time (using Riap 1.1). As a variation
+we pass function arguments through the X-Riap-Args HTTP header:
 
  --- Request ---
  GET /api/Math/multiply2 HTTP/1.0
@@ -178,9 +179,9 @@ arguments through the X-Riap-Args HTTP header:
 
  --- Response ---
  HTTP/1.0 200 OK
- Date: Sat, 14 Jan 2012 17:11:50 GMT
- Server: PeriAHS/0.01
- X-Riap-V: 1.1.21
+ Date: Thu, 23 Oct 2014 06:02:50 GMT
+ Server: PeriAHS/0.50
+ X-Riap-V: 1.1.24
  Content-Type: application/json
 
  [200,"OK",6]
@@ -197,12 +198,12 @@ and send 'unlogged' response.
 
  --- Response ---
  HTTP/1.1 200 OK
- Server: Gepok/0.24
+ Server: Gepok/0.26
  Content-Type: text/plain
- Date: Sat, 21 Dec 2013 06:18:13 GMT
+ Date: Thu, 23 Oct 2013 06:02:55 GMT
  Connection: Keep-Alive
  Transfer-Encoding: chunked
- X-Riap-V: 1.1.21
+ X-Riap-V: 1.1.24
  X-Riap-Logging: 1
 
  l96 [critical][Sat Dec 21 13:18:13 2013] (1/3) This is random log message #1, level=1 (fatal): 2185

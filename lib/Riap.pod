@@ -3,7 +3,7 @@
 
 =head1 SPECIFICATION VERSION
 
- 1.1
+ 1.2
 
 
 =head1 SYNOPSIS
@@ -17,9 +17,9 @@ structures can actually be encoded using other formats.
 
 =head1 STATUS
 
-The 1.1 series does not guarantee full backward compatibility between revisions,
+The 1.2 series does not guarantee full backward compatibility between revisions,
 so caveat implementor. However, major incompatibility will bump the version to
-1.2 or 2.0.
+1.3 or 2.0.
 
 
 =head1 DESCRIPTION
@@ -211,15 +211,13 @@ enveloped with a 200 status):
 
  [200,"OK",
   {
-   // server's protocol version
-   "v": 1.1,
-
    // entity's type
    "type": "function",
 
    // canonical URI for the entity
    "uri": "/Package/SubPkg/",
-  }
+  },
+  {"riap.v": 1.2}
  ]
 
 Server may add additional information keys.
@@ -230,7 +228,8 @@ List available actions for code entity. The server should return a list of
 action names:
 
  [200,"OK",
-  ["info","actions","meta","call","complete_arg_val"]
+  ["info","actions","meta","call","complete_arg_val"],
+  {"riap.v":1.2}
  ]
 
 Additional request key: B<detail> (bool, optional, default false, can be set to
@@ -245,7 +244,8 @@ Under B<detail>, server should return something like this:
    {"name":"meta","summary":"Get metadata for code entity"},
    {"name":"call","summary":"Call function"},
    {"name":"complete_arg_val","summary":"Complete function's argument value"}
-  ]
+  ],
+  {"riap.v":1.2}
  ]
 
 It can return additional field like C<keys> to explain additional
@@ -283,7 +283,8 @@ B<description>, etc.
 Example, a C<list> action on the top namespace C</> might return the following:
 
  [200,"OK",
-  ["Math/","Utils/"]
+  ["Math/","Utils/"],
+  {"riap.v":1.2}
  ]
 
 Another example, a C<list> action on the C<pl:/Math> namespace, with C<type>
@@ -298,7 +299,8 @@ set to C<function> and C<q> to C<multiply>, and C<detail> set to true:
    {"uri": "multmany",
     "type": "function",
     "summary": "Multiply several numbers"}
-  ]
+  ],
+  {"riap.v":1.2}
  ]
 
 An C<abs_uri> can also be provided by server for each record.
@@ -317,7 +319,8 @@ following:
   {
    "Math/":  {"v":1.1, "summary":"This is metadata for Math"},
   ,"Utils/": {"v":1.1, "summary":"This is metadata for Utils"}
-  }
+  },
+  {"riap.v":1.2}
  ]
 
 
@@ -377,13 +380,15 @@ completing a C<delete_user> function for the argument C<username>, and C<word>
 is "st", the server might return:
 
  [200,"OK",
-  ["stella","steven","stuart"]
+  ["stella","steven","stuart"],
+  {"riap.v":1.2}
  ]
 
 When there is no completion, the server should return an empty list:
 
  [200,"OK",
-  []
+  [],
+  {"riap.v":1.2}
  ]
 
 =head2 Action: B<complete_arg_elem>
@@ -450,7 +455,32 @@ B<Riap> stands for Rinci access protocol, but it is also an Indonesian word
 meaning: to gain in size or number.
 
 
+=head1 THE RESPONSE
+
+Server must return an enveloped response as specified in L<Rinci::function>
+specification, namely a 4-element array: C<<[STATUS, MESSAGE, RESULT, META]>>.
+C<STATUS> is an integer, C<MESSAGE> is a string, C<RESULT> is of any type and is
+the actual result, and C<META> is a hash.
+
+Starting from Riap 1.2, server must return C<META> which contains at least
+C<riap.v> key, containing the Riap protocol version. Client must recognize and
+remove all C<riap.*> keys from the response before returning the final result to
+user. If there is an unknown C<riap.*> keys or an unrecognized value, it must
+fail. This is to handle/detect incompatibilities/new features in future
+versions.
+
+
 =head1 HISTORY
+
+=head2 1.2 (Oct 2014)
+
+Version bumped to 1.2. This version addresses sending/receiving binary data over
+JSON. In this version, client can send base64-encoded binary data in arguments
+using C<ARGNAME:base64> key. Server can return base64-encoded binary data in
+result, this is hinted by the C<riap.result_encoding> attribute in result
+medatata. To detect/handle incompatibilities in future versions, client now must
+check C<riap.v> and all C<riap.*> properties in result metadata, and fail if it
+can't recognize an attribute.
 
 =head2 1.1 (Jan 2012)
 

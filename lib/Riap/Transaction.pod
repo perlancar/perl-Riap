@@ -3,7 +3,7 @@
 
 =head1 SPECIFICATION VERSION
 
- 1.1
+ 1.2
 
 
 =head1 SYNOPSIS
@@ -87,7 +87,8 @@ Example:
     "tx_commit_time":1336043071, "tx_summary":null},
    {"tx_id": "TX3", "tx_status":"i", "tx_start_time":1336043090,
     "tx_commit_time":null, "tx_summary":"Some summary"},
-  ]
+  ],
+  {"riap.v":1.2}
  ]
 
 =head2 Action: B<undo>

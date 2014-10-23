@@ -3,7 +3,7 @@
 
 =head1 PROTOCOL VERSION
 
- 1.1
+ 1.2
 
 
 =head1 SYNOPSIS
@@ -70,14 +70,23 @@ Below are some examples of what is sent and received on the wire.
  J12
  [200,"OK",6]
 
- j{"action":"call","uri":"/Math/mult","args":{"a":2,"b":4}}
- J12
- [200,"OK",8]
+ j{"v":1.2,"action":"call","uri":"/Math/mult","args":{"a":2,"b":4}}
+ J27
+ [200,"OK",8,{"riap.v":1.2}]
 
  J44
  {"v":1.1,"action":"info","uri":"/Math/mult"}
- J57
- [200,"OK",{"v":1.1,"type":"function","uri":"/Math/mult"}]
+ J49
+ [200,"OK",{"type":"function","uri":"/Math/mult"}]
+
+An example of sending and returning binary data (Riap v1.2 only):
+
+ j{"v":1.2,"action":"call","uri":"/bitflip","args":{"data:base64":"AAAA"}}
+ J64
+ [200,"OK","////",{"riap.v":1.2,"riap.result_encoding":"base64"}]
+
+The example belows shows calling a function that bit-flips 0x000000 into
+0xffffff.
 
 
 =head1 FAQ
