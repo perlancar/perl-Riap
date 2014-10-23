@@ -1,5 +1,12 @@
 Revision history for Riap
 
+1.2.1   2014-10-23 (PERLANCAR)
+
+	- No spec changes.
+
+	- Typo: unimplemented status is 501, not 502.
+
+
 1.2.0    2014-10-23 (PERLANCAR)
 
          - Bump version to 1.2. This version addresses sending/receiving binary
