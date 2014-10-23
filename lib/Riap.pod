@@ -166,7 +166,7 @@ values. Common request keys:
 =item * v => FLOAT
 
 Specify Riap protocol version. If not specified, default is C<1.1>. Server
-should return 502 status if it does not support requested protocol version.
+should return 501 status if it does not support requested protocol version.
 
 =item * uri => STR
 
@@ -182,7 +182,7 @@ entity, or 403 if C<uri> is forbidden.
 
 Required. Specify action to perform on the code entity.
 
-The server should return 502 status if an action is unknown for the specified
+The server should return 501 status if an action is unknown for the specified
 URI. The server should return 401/403 status if authentication is required or
 action is not allowed for the specified code entity, respectively.
 
@@ -466,8 +466,8 @@ Starting from Riap 1.2, server must return C<META> which contains at least
 C<riap.v> key, containing the Riap protocol version. Client must recognize and
 remove all C<riap.*> keys from the response before returning the final result to
 user. If there is an unknown C<riap.*> keys or an unrecognized value, it must
-fail. This is to handle/detect incompatibilities/new features in future
-versions.
+fail by returning 501 status to user. This is to handle/detect
+incompatibilities/new features in future versions.
 
 
 =head1 HISTORY

@@ -58,7 +58,7 @@ Below are some examples of what is sent and received on the wire.
  J9
  {"v":0.9}
  J40
- [502,"Protocol version not implemented"]
+ [501,"Protocol version not implemented"]
 
  J1
  {
