@@ -1,5 +1,26 @@
 Revision history for Riap
 
+1.2.0    2014-10-23 (PERLANCAR)
+
+         - Bump version to 1.2. This version addresses sending/receiving binary
+           data over JSON by base64-encoding.
+
+         - Client can send base64-encoded binary data in arguments using the
+           C<ARGNAME:base64> key in 'args' Riap request key.
+
+         - Server can return base64-encoded binary data in result by setting
+           result metadata property 'riap.result_encoding' to 'base64'.
+
+         - Server now MUST return result metadata with at least 'riap.v' with
+           the value of 1.2. The 'info' action is now not required to send Riap
+           protocol version ('v').
+
+         - Client MUST check and strip all 'riap.*' keys in result metadata.
+           Client must fail when it encounters an unknown 'riap.*' key or a
+           known key with an invalid/unknown value. This is so that future
+           incompatibilities can be handled/detected.
+
+
 1.1.24	 2014-08-18 (SHARYANTO)
 
          - No spec changes.
