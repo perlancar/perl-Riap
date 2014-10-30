@@ -355,6 +355,31 @@ Optional. If set to true, will either pass C<< -dry_run => 1 >> to function
 supporting dry run, or C<< -tx_action => 'check_state' >> to function supporting
 transaction (can more or less be regarded as the dry run equivalent).
 
+=item * B<arg_len> => int
+
+Will be passed to function as special argument C<-arg_len> to send partial
+argument value.
+
+=item * B<arg_part_start> => int
+
+Will be passed to function as special argument C<-arg_part_start> to send
+partial argument value.
+
+=item * B<art_part_len> => int
+
+Will be passed to function as special argument C<-arg_part_len> to send partial
+argument value.
+
+=item * B<res_part_start> => int
+
+Will be passed to function as special argument C<-res_part_start> to request
+partial result.
+
+=item * B<res_part_len> => int
+
+Will be passed to function as special argument C<-res_part_len> to request
+partial result.
+
 =item * B<stream_arg> => bool
 
 Optional. If set to true, then will provide a filehandle or an iterable object

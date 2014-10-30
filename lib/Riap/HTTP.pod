@@ -76,13 +76,10 @@ value (notice the ending C<->), e.g.
 This allows the server to have its own URL scheme, while allowing a way for a
 common access mechanism.
 
-If HTTP header C<Content-Range> presents (partial content upload) then the
-target function metadata is checked first. If there is a function argument that
-has C<partial> property set to 1, then partial argument value will be retrieved
-from HTTP body. Special arguments C<-arg_len> and C<-arg_part_start> will be
-sent to function with the value from HTTP request header C<Content-Range>.
-Special argument C<-arg_part_len> will be sent to function with value from HTTP
-request header C<Content-Length>. For example this HTTP request:
+If HTTP header C<Content-Range> presents (partial content upload) then the Riap
+request keys C<arg_len>, C<arg_part_start>, and C<arg_part_len> will be
+accordingly set. Partial argument value will then be retrieved from HTTP body.
+For example this HTTP request:
 
  PUT /api/?filename=myvideo.mp4 HTTP/1.1
  Host: example.com
@@ -110,6 +107,9 @@ will send these arguments to function:
      "-arg_part_start":409,
      "-arg_part_len":124496
  }
+
+Or, if HTTP request header C<Transfer-Encoding: chunked> is present, then server
+will assume streaming input. Function eill
 
 Otherwise, if there is no partial content upload, the server MUST also accept
 C<args> from HTTP request body. The server MUST accept at least body of type
@@ -180,6 +180,19 @@ message must be prepended with "l" followed by number of bytes of content (e.g.
 "20") followed by a single space character followed by the content (in this
 example, exactly 20 bytes of it). Result is similarly prepended but with "r"
 instead of "l".
+
+
+=head1 OUTPUT STREAM
+
+Rinci supports function returning output stream. This is marked by the result
+being a filehandle or an object that has a getline()/getitem() method and result
+metadata property C<stream> is set to true.
+
+In Riap::HTTP, this is translated to chunked transfer. The first data chunk will
+be something like (in JSON): C<<[200,"OK","stream",{"stream":1}]>> and the next
+chunks will contain the data for the output stream. A Riap::HTTP client can
+convert the "stream" part into an object that has a getline()/getitem() method
+to retrieve data from these chunks.
 
 
 =head1 EXAMPLES
@@ -282,6 +295,34 @@ self-description due to the C<list> action and the rich Rinci metadata.
 Riap::HTTP can also use custom routing so if you want you can make it use REST
 style, while still fulfilling request with Riap in the backend. For example, see
 L<Serabi> in Perl.
+
+=head2 How to do Rinci's partial input data on Riap::HTTP?
+
+To send partial argument value, you can send HTTP headers C<Content-Range> which
+will be translated to C<arg_part_start> and C<arg_part_len> Riap request keys,
+which will then be passed to function as C<-arg_part_start> and
+C<-arg_part_len>.
+
+=head2 How to do Rinci's partial result on Riap::HTTP?
+
+To request partial result, you can send HTTP headers C<Range> which will be
+translated to C<res_part_start> and C<res_part_len> Riap request keys, which
+will then be passed to function as C<-res_part_start> and C<-res_part_len>.
+
+Normal HTTP response (without any C<Range> HTTP response headers) will be
+returned. If function supports partial result, the enveloped response contained
+in the HTTP response will be something like C<<[206, "Partial content",
+"...partial data...", {"riap.v":1.2, "len":TL, "part_start":S, "part_len":L}] >>
+where the numbers represented by S, L will correspond to the range requested.
+
+=head2 How to do Rinci's streaming input on Riap::HTTP?
+
+Client can send a chunked transfer. See L</"Parsing Riap request from HTTP
+request"> for more details.
+
+=head2 How to do Rinci's streaming output on Riap::HTTP?
+
+Send can send a chunked transfer. See L</"OUTPUT STREAM"> for more details.
 
 
 =head1 SEE ALSO
