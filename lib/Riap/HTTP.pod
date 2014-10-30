@@ -76,11 +76,47 @@ value (notice the ending C<->), e.g.
 This allows the server to have its own URL scheme, while allowing a way for a
 common access mechanism.
 
-The server MUST also accept C<args> from HTTP request body. The server MUST
-accept at least body of type C<application/json>, but it can accept other types.
-The server MUST not interpret C<application/x-www-form-urlencoded> for this
-purpose (and interpret it as a normal web form). Server MUST return response 400
-if document type is not recognized.
+If HTTP header C<Content-Range> presents (partial content upload) then the
+target function metadata is checked first. If there is a function argument that
+has C<partial> property set to 1, then partial argument value will be retrieved
+from HTTP body. Special arguments C<-arg_len> and C<-arg_part_start> will be
+sent to function with the value from HTTP request header C<Content-Range>.
+Special argument C<-arg_part_len> will be sent to function with value from HTTP
+request header C<Content-Length>. For example this HTTP request:
+
+ PUT /api/?filename=myvideo.mp4 HTTP/1.1
+ Host: example.com
+ X-Riap-uri: /MyApp/upload_file
+ Content-Type: application/octet_stream
+ Content-Length: 124496
+ Content-Range: bytes 409-124904/124905
+
+when function metadata at /MyApp/upload_file is:
+
+ {
+     "v":1.1,
+     "args":{
+         "filename":{"schema":"str*", "req":1},
+         "data":{"schema":"buf*", "req":1, "partial":1}
+     }
+ }
+
+will send these arguments to function:
+
+ {
+     "filename":"myvideo.mp4",
+     "data":"...data from upload...",
+     "-arg_len":124905,
+     "-arg_part_start":409,
+     "-arg_part_len":124496
+ }
+
+Otherwise, if there is no partial content upload, the server MUST also accept
+C<args> from HTTP request body. The server MUST accept at least body of type
+C<application/json>, but it can accept other types. The server MUST not
+interpret C<application/x-www-form-urlencoded> for this purpose (and interpret
+it as a normal web form). Server MUST return response 400 if document type is
+not recognized.
 
 The server can also accept Riap request keys or function arguments using other
 means. For example, L<Plack::Middleware::PeriAHS::ParseRequest>, from Perl
@@ -115,7 +151,7 @@ will result in the following Riap request:
 
 =head1 HTTP RESPONSE
 
-Response status MUST be 200 for success.
+HTTP response status MUST be 200 for success.
 
 There are some HTTP response headers related to Riap::HTTP: C<X-Riap-V> is
 REQUIRED and gives information on the Riap::HTTP protocol version supported by
@@ -123,7 +159,7 @@ the server. C<X-Riap-Logging> is optional and advertises loglevel server support
 (see L</LOGGING>).
 
 The response body is an enveloped result (as described in L<Rinci::function>)
-encoded in JSON or other format.
+encoded in JSON or other requested format.
 
 
 =head1 LOGGING
