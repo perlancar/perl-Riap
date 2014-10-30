@@ -355,6 +355,14 @@ Optional. If set to true, will either pass C<< -dry_run => 1 >> to function
 supporting dry run, or C<< -tx_action => 'check_state' >> to function supporting
 transaction (can more or less be regarded as the dry run equivalent).
 
+=item * B<stream_arg> => bool
+
+Optional. If set to true, then will provide a filehandle or an iterable object
+as argument value for the function, where the function can read data from. And
+will also send special argument C<< -arg_stream => 1 >> to function. Note that
+the function must have exactly a single argument that has its C<streaming>
+property set to true. Otherwise, server MUST send 501 (unimplemented) response.
+
 =back
 
 =head2 Action: B<complete_arg_val>
