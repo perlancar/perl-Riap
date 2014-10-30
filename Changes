@@ -1,5 +1,11 @@
 Revision history for Riap
 
+1.2.2   2014-10-30 (PERLANCAR)
+
+        - Support Rinci's partial argument/result as well as input/output stream
+          (in Riap as well as Riap::HTTP, but not in Riap::Simple).
+
+
 1.2.1   2014-10-23 (PERLANCAR)
 
 	- No spec changes.

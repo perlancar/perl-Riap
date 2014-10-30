@@ -21,6 +21,8 @@ messages). It is suitable for localhost/localnet communication (e.g. between
 processes of different languages). For public-facing service, Riap::HTTP is more
 recommended.
 
+Riap::Simple does not support Rinci's input/output stream.
+
 =head2 Request
 
 B<Client> first sends a request line of the following format:
