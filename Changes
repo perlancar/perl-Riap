@@ -1,5 +1,15 @@
 Revision history for Riap
 
+1.2.3   2015-03-05 (PERLANCAR)
+
+        [REMOVED FEATURES]
+
+        - Remove support for "J" header in Riap::Simple. In order to further
+          simplify the Riap::Simple protocol, client can now only send "j"
+          header. The server now responds also using "j" header. All request and
+          response are now single lines.
+
+
 1.2.2   2014-10-30 (PERLANCAR)
 
         - Support Rinci's partial argument/result as well as input/output stream
