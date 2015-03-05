@@ -27,27 +27,18 @@ Riap::Simple does not support Rinci's input/output stream.
 
 B<Client> first sends a request line of the following format:
 
- "J" <size> <CRLF>
-
-That is, the uppercase letter C<J> (for JSON) and size of subsequent request
-body in bytes. Client then sends the Riap request in JSON, followed by CRLF.
-
-Alternatively, client can also send the whole request in a single line, for
-shorter requests:
-
  "j" <JSON> <CRLF>
 
-That is, the lowercase letter C<j> followed by JSON data, followed by CRLF. In
-this format, the JSON data cannot contain newlines.
+That is, the lowercase letter C<j> followed by JSON data (must all be in one
+line), followed by CRLF.
 
 =head2 Response
 
-B<Server> replies by first sending a similar line:
+ "j" <JSON> <CRLF>
 
- "J" <size> <CRLF>
-
-followed by enveloped result encoded in JSON and a single <CRLF>. The next
-request can then be sent by client.
+That is, the lowercase letter C<j> followed by enveloped result encoded in JSON
+(will all be in one line) and a single <CRLF>. The next request can then be sent
+by client.
 
 If client/server sends an invalid request/response line, the connection can be
 closed.
@@ -57,35 +48,25 @@ closed.
 
 Below are some examples of what is sent and received on the wire.
 
- J9
- {"v":0.9}
- J40
- [501,"Protocol version not implemented"]
+ j{"v":0.9}
+ j[501,"Protocol version not implemented"]
 
- J1
- {
- J20
- [400,"Invalid JSON"]
+ j{
+ j[400,"Invalid JSON"]
 
- J57
- {"action":"call","uri":"/Math/mult","args":{"a":2,"b":3}}
- J12
- [200,"OK",6]
+ j{"action":"call","uri":"/Math/mult","args":{"a":2,"b":3}}
+ j[200,"OK",6]
 
  j{"v":1.2,"action":"call","uri":"/Math/mult","args":{"a":2,"b":4}}
- J27
- [200,"OK",8,{"riap.v":1.2}]
+ j[200,"OK",8,{"riap.v":1.2}]
 
- J44
- {"v":1.1,"action":"info","uri":"/Math/mult"}
- J49
- [200,"OK",{"type":"function","uri":"/Math/mult"}]
+ j{"v":1.1,"action":"info","uri":"/Math/mult"}
+ j[200,"OK",{"type":"function","uri":"/Math/mult"}]
 
 An example of sending and returning binary data (Riap v1.2 only):
 
  j{"v":1.2,"action":"call","uri":"/bitflip","args":{"data:base64":"AAAA"}}
- J64
- [200,"OK","////",{"riap.v":1.2,"riap.result_encoding":"base64"}]
+ j[200,"OK","////",{"riap.v":1.2,"riap.result_encoding":"base64"}]
 
 The example belows shows calling a function that bit-flips 0x000000 into
 0xffffff.
