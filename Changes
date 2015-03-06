@@ -185,7 +185,7 @@ Revision history for Riap
 
          - (INCOMPATIBLE) Rename 'complete' action to 'complete_arg_val'.
 
-         - Add new action 'complete_arg_name'.
+         - Add new action 'complete_arg_name'. UPDATE IN 1.1.7: removed.
 
 
 1.1.5	 2012-02-15 (SHARYANTO)
@@ -210,7 +210,7 @@ Revision history for Riap
 
 	 - Specify riap URI scheme (moved from Rinci).
 
-         - Add Riap::TCP.
+         - Add Riap::TCP. UPDATE in 1.1.16: renamed to Riap::Simple.
 
 
 1.1.2	 2012-01-17 (SHARYANTO)
