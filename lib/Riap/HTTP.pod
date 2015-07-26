@@ -189,8 +189,8 @@ being a filehandle or an object that has a getline()/getitem() method and result
 metadata property C<stream> is set to true.
 
 In Riap::HTTP, this is translated to chunked transfer. The first data chunk will
-be something like (in JSON): C<<[200,"OK","stream",{"stream":1}]>> and the next
-chunks will contain the data for the output stream. A Riap::HTTP client can
+be something like (in JSON): C<< [200,"OK","stream",{"stream":1}] >> and the
+next chunks will contain the data for the output stream. A Riap::HTTP client can
 convert the "stream" part into an object that has a getline()/getitem() method
 to retrieve data from these chunks.
 
@@ -311,7 +311,7 @@ will then be passed to function as C<-res_part_start> and C<-res_part_len>.
 
 Normal HTTP response (without any C<Range> HTTP response headers) will be
 returned. If function supports partial result, the enveloped response contained
-in the HTTP response will be something like C<<[206, "Partial content",
+in the HTTP response will be something like C<< [206, "Partial content",
 "...partial data...", {"riap.v":1.2, "len":TL, "part_start":S, "part_len":L}] >>
 where the numbers represented by S, L will correspond to the range requested.
 

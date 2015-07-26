@@ -491,7 +491,7 @@ meaning: to gain in size or number.
 =head1 THE RESPONSE
 
 Server must return an enveloped response as specified in L<Rinci::function>
-specification, namely a 4-element array: C<<[STATUS, MESSAGE, RESULT, META]>>.
+specification, namely a 4-element array: C<< [STATUS, MESSAGE, RESULT, META] >>.
 C<STATUS> is an integer, C<MESSAGE> is a string, C<RESULT> is of any type and is
 the actual result, and C<META> is a hash.
 
