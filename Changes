@@ -1,5 +1,14 @@
 Revision history for Riap
 
+1.2.4   2015-09-04 (PERLANCAR)
+
+	- No spec changes.
+
+	- [dist] Move spec prereqs from RuntimeRequires to
+	  DevelopRecommends to reduce deps but still allow indicating spec
+	  requirement.
+
+
 1.2.3   2015-03-05 (PERLANCAR)
 
         [REMOVED FEATURES]
