@@ -1,4 +1,4 @@
-1.2.4   2015-09-04 (PERLANCAR)
+1.2.4   2015-09-04  Released-By: PERLANCAR
 
 	- No spec changes.
 
@@ -7,7 +7,7 @@
 	  requirement.
 
 
-1.2.3   2015-03-05 (PERLANCAR)
+1.2.3   2015-03-05  Released-By: PERLANCAR
 
         [REMOVED FEATURES]
 
@@ -17,20 +17,20 @@
           response are now single lines.
 
 
-1.2.2   2014-10-30 (PERLANCAR)
+1.2.2   2014-10-30  Released-By: PERLANCAR
 
         - Support Rinci's partial argument/result as well as input/output stream
           (in Riap as well as Riap::HTTP, but not in Riap::Simple).
 
 
-1.2.1   2014-10-23 (PERLANCAR)
+1.2.1   2014-10-23  Released-By: PERLANCAR
 
 	- No spec changes.
 
 	- Typo: unimplemented status is 501, not 502.
 
 
-1.2.0    2014-10-23 (PERLANCAR)
+1.2.0    2014-10-23  Released-By: PERLANCAR
 
          - Bump version to 1.2. This version addresses sending/receiving binary
            data over JSON by base64-encoding.
@@ -51,21 +51,21 @@
            incompatibilities can be handled/detected.
 
 
-1.1.24	 2014-08-18 (SHARYANTO)
+1.1.24	 2014-08-18  Released-By: SHARYANTO
 
          - No spec changes.
 
          - Mention JSON RPC.
 
 
-1.1.23	 2014-06-18 (SHARYANTO)
+1.1.23	 2014-06-18  Released-By: SHARYANTO
 
          [ENHANCEMENTS]
 
          - Introduce new action 'complete_arg_elem'.
 
 
-1.1.22	 2013-12-21 (SHARYANTO)
+1.1.22	 2013-12-21  Released-By: SHARYANTO
 
          [INCOMPATIBLE CHANGES]
 
@@ -74,7 +74,7 @@
            message(s).
 
 
-1.1.21	 2013-12-21 (SHARYANTO)
+1.1.21	 2013-12-21  Released-By: SHARYANTO
 
          - Introduce 'X-Riap-V' (require HTTP response header) to let server
            declare Riap::HTTP protocol version.
@@ -85,12 +85,12 @@
            support it.
 
 
-1.1.20	 2013-11-27 (SHARYANTO)
+1.1.20	 2013-11-27  Released-By: SHARYANTO
 
          - list action: should return relative URIs to be more tree-like.
 
 
-1.1.19	 2012-08-29 (SHARYANTO)
+1.1.19	 2012-08-29  Released-By: SHARYANTO
 
          - call action: Specify 'dry_run' and 'confirm'.
 
@@ -105,12 +105,12 @@
            1.1.24, to avoid duplication.
 
 
-1.1.17	 2012-08-01 (SHARYANTO)
+1.1.17	 2012-08-01  Released-By: SHARYANTO
 
          - Allow riap+pipe scheme to specify program arguments.
 
 
-1.1.16	 2012-07-31 (SHARYANTO)
+1.1.16	 2012-07-31  Released-By: SHARYANTO
 
          - Rename Riap::TCP to Riap::Simple.
 
@@ -118,12 +118,12 @@
            riap+tcp), riap+pipe.
 
 
-1.1.15	 2012-07-19 (SHARYANTO)
+1.1.15	 2012-07-19  Released-By: SHARYANTO
 
          - Riap::TCP: Allow single-line request using j<JSON><CRLF>
 
 
-1.1.14	 2012-06-22 (SHARYANTO)
+1.1.14	 2012-06-22  Released-By: SHARYANTO
 
          - Some small changes, mainly transaction status labels (final statuses
            are in uppercase: C, R, U, X; while transient statuses are in
@@ -132,7 +132,7 @@
          - Now requires Rinci 1.1.19.
 
 
-1.1.13	 2012-05-31 (SHARYANTO)
+1.1.13	 2012-05-31  Released-By: SHARYANTO
 
          - Some revision and incompatible changes to Riap::Transaction
            specification: rename requests (begin -> begin_tx, commit ->
@@ -142,30 +142,30 @@
          - Now requires Rinci 1.1.17.
 
 
-1.1.12	 2012-05-03 (SHARYANTO)
+1.1.12	 2012-05-03  Released-By: SHARYANTO
 
          - (NEW) Riap::Transaction, specification for doing transaction and undo
            over Riap.
 
 
-1.1.11	 2012-04-03 (SHARYANTO)
+1.1.11	 2012-04-03  Released-By: SHARYANTO
 
          - (REMOVED) Remove mention of 'riap+http' and 'riap+https' as they are
            useless. Use 'http' and 'https'.
 
 
-1.1.10	 2012-04-03 (SHARYANTO)
+1.1.10	 2012-04-03  Released-By: SHARYANTO
 
          - (Change, or rather define, as it has not been specified formally)
            'pm' URI scheme to (or, as) 'pl'.
 
 
-1.1.9	 2012-03-08 (SHARYANTO)
+1.1.9	 2012-03-08  Released-By: SHARYANTO
 
          - Add new action for variable: get
 
 
-1.1.8	 2012-03-01 (SHARYANTO)
+1.1.8	 2012-03-01  Released-By: SHARYANTO
 
          - Add new action for package: child_metas
 
@@ -175,7 +175,7 @@
            (except that 'json' still needs to be supported).
 
 
-1.1.7	 2012-02-22 (SHARYANTO)
+1.1.7	 2012-02-22  Released-By: SHARYANTO
 
          - (REMOVE, INCOMPATIBLE) Remove action 'complete_arg_name'. This action
            can be implemented in the client side by retrieving function metadata
@@ -185,7 +185,7 @@
            --noboolopt (or --no-boolopt), and so on.
 
 
-1.1.6	 2012-02-22 (SHARYANTO)
+1.1.6	 2012-02-22  Released-By: SHARYANTO
 
          - Add new action 'actions'. To list available actions on a code entity,
            use this action now instead of 'info'.
@@ -195,13 +195,13 @@
          - Add new action 'complete_arg_name'. UPDATE IN 1.1.7: removed.
 
 
-1.1.5	 2012-02-15 (SHARYANTO)
+1.1.5	 2012-02-15  Released-By: SHARYANTO
 
          - Some fixes (build/deps, examples, 'info' action should contain
            'acts') and minor updates.
 
 
-1.1.4	 2012-02-01 (SHARYANTO)
+1.1.4	 2012-02-01  Released-By: SHARYANTO
 
          - Declare that in 1.1 series, minor backward compatibility problems
            between revisions are to be expected.
@@ -213,24 +213,24 @@
          - Change required result keys of 'info' action.
 
 
-1.1.3	 2012-01-27 (SHARYANTO)
+1.1.3	 2012-01-27  Released-By: SHARYANTO
 
 	 - Specify riap URI scheme (moved from Rinci).
 
          - Add Riap::TCP. UPDATE in 1.1.16: renamed to Riap::Simple.
 
 
-1.1.2	 2012-01-17 (SHARYANTO)
+1.1.2	 2012-01-17  Released-By: SHARYANTO
 
 	 - Rename distribution from Rinci-HTTP as Riap.
 
 
-1.1.1    2012-01-15 (SHARYANTO)
+1.1.1    2012-01-15  Released-By: SHARYANTO
 
          - No spec changes. Fix misplaced section in POD.
 
 
-1.1.0    2012-01-15 (SHARYANTO)
+1.1.0    2012-01-15  Released-By: SHARYANTO
 
          - First release. Renamed from Sub::Spec::HTTP. Now follow the Rinci
            specification instead of Sub::Spec. Generalized to perform actions on
